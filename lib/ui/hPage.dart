@@ -1,8 +1,16 @@
-// ignore_for_file: file_names, avoid_print, prefer_const_constructors, library_private_types_in_public_api
+// ignore_for_file: file_names, avoid_print, prefer_const_constructors, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
 
+// import 'package:final_app/ui/questions.dart';
+import 'package:final_app/ui/Article2.dart';
+import 'package:final_app/ui/Article3.dart';
+import 'package:final_app/ui/Article4.dart';
+import 'package:final_app/ui/Articles1.dart';
+import 'package:final_app/ui/articles.dart';
 import 'package:final_app/ui/questions.dart';
+// import 'package:final_app/ui/readMore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HPage extends StatefulWidget {
   const HPage({Key? key}) : super(key: key);
@@ -15,6 +23,8 @@ class _HPageState extends State<HPage> {
   late final PageController _pageController;
   late final List<String> _imagePaths;
   int _currentPageIndex = 0;
+  int _currentIndex = 0;
+  final CarouselController _carouselController = CarouselController();
 
   @override
   void initState() {
@@ -48,6 +58,52 @@ class _HPageState extends State<HPage> {
       );
     });
   }
+
+  final List<String> images = [
+    "assets/images/article1.png",
+    "assets/images/article2.png",
+    "assets/images/article3.png",
+    "assets/images/article4.png",
+  ];
+
+  final List<String> captions = [
+    "Active TB vs CPA: what's the difference?",
+    "Easy signs to look outfor Chronic Pulmonary Aspergilosis (CPA)",
+    'Article 3',
+    'Article 4',
+  ];
+
+  void _navigateToArticlePage(int index) {
+  switch (index) {
+    case 0:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Articles1()),
+      );
+      break;
+    case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Article2()),
+      );
+      break;
+    case 2:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Article3()),
+      );
+      break;
+    case 3:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Article4()),
+      );
+      break;
+    default:
+      break;
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +292,7 @@ class _HPageState extends State<HPage> {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Text(
-                                      "Kumbucha!",
+                                      " Chronic pulmonary aspergillosis (CPA) may mimic pulmonary tuberculosis (PTB).The two diseases are clinically indistinguishable and may result in CPA misdiagnosed as PTB or vice versa. Although PTB is largely recognised as a differential diagnosis of CPA and often ruled out prior to CPA diagnosis, the reverse is uncommon.",
                                       style: TextStyle(
                                         fontSize: 15,
                                         color: Colors.black,
@@ -285,7 +341,7 @@ class _HPageState extends State<HPage> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  // part to check how many patients have been tested varying in different categories 
+                  // part to check how many patients have been tested varying in different categories
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 15.0),
                     child: Container(
@@ -438,6 +494,139 @@ class _HPageState extends State<HPage> {
                           ],
                         ),
                       ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+
+                  // part for articles
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 20.0,
+                      right: 20.0,
+                      top: 10.0,
+                      bottom: 15.0,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Interesting Articles",
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // part ofarticles which involves images
+                  Center(
+                    child: Column(
+                      children: [
+                        CarouselSlider.builder(
+                          itemCount: images.length,
+                          carouselController: _carouselController,
+                          options: CarouselOptions(
+                            aspectRatio: 16 / 9,
+                            enlargeCenterPage: true,
+                            enableInfiniteScroll: false,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 15),
+                            viewportFraction: 0.8,
+                            // Define indicator
+                            onPageChanged: (index, reason) {
+                              setState(() {
+                                _currentIndex = index;
+                              });
+                            },
+                          ),
+                          itemBuilder:
+                              (BuildContext context, int index, int realIndex) {
+                            return GestureDetector(
+                               onTap: () {
+              _navigateToArticlePage(index);
+            },
+                           child:  Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    child: Image.asset(
+                                      images[index],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    captions[index],
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ), 
+                            );
+                          },
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(images.length, (index) {
+                            // int index = images.indexOf(url);
+                            return Container(
+                              width: 10.0,
+                              height: 10.0,
+                              margin: EdgeInsets.symmetric(horizontal: 8.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: _currentIndex == index
+                                    ? Colors.blue
+                                    : Colors.grey,
+                              ),
+                            );
+                          }),
+                        ),
+
+                        // button for read more articles
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 2.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              border: Border.all(color: Colors.blue, width: 1),
+                              // color: Colors.lightBlueAccent,
+                            ),
+                            child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Articles()),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 90.0),
+                                child: Text(
+                                  "Read other articles",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    // fontWeight: FontWeight.bold,
+                                    color: Color.fromARGB(255, 28, 95, 149),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: 20),
