@@ -69,41 +69,40 @@ class _HPageState extends State<HPage> {
   final List<String> captions = [
     "Active TB vs CPA: what's the difference?",
     "Easy signs to look outfor Chronic Pulmonary Aspergilosis (CPA)",
-    'Article 3',
-    'Article 4',
+    'The Radiological  diagnosis of CPA',
+    'Treatment for CPA',
   ];
 
   void _navigateToArticlePage(int index) {
-  switch (index) {
-    case 0:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Articles1()),
-      );
-      break;
-    case 1:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Article2()),
-      );
-      break;
-    case 2:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Article3()),
-      );
-      break;
-    case 3:
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Article4()),
-      );
-      break;
-    default:
-      break;
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Articles1()),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Article2()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Article3()),
+        );
+        break;
+      case 3:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Article4()),
+        );
+        break;
+      default:
+        break;
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
@@ -543,34 +542,34 @@ class _HPageState extends State<HPage> {
                           itemBuilder:
                               (BuildContext context, int index, int realIndex) {
                             return GestureDetector(
-                               onTap: () {
-              _navigateToArticlePage(index);
-            },
-                           child:  Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.asset(
-                                      images[index],
-                                      fit: BoxFit.cover,
+                              onTap: () {
+                                _navigateToArticlePage(index);
+                              },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Expanded(
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.asset(
+                                        images[index],
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 10),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    captions[index],
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
+                                  SizedBox(height: 10),
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      captions[index],
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ), 
+                                ],
+                              ),
                             );
                           },
                         ),

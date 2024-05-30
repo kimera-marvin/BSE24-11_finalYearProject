@@ -245,7 +245,7 @@ class _ArticlesState extends State<Articles> {
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 3",
+                                          "The Radiological  diagnosis of CPA",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -264,7 +264,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 4
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -312,7 +312,7 @@ class _ArticlesState extends State<Articles> {
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 4",
+                                          "Treatment for CPA",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -331,7 +331,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 5
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -379,7 +379,7 @@ class _ArticlesState extends State<Articles> {
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 5",
+                                          "Case Definition of Chronic Pulmonary Aspergillosis in Resource-Constrained Settings",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -398,7 +398,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 6
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -439,14 +439,14 @@ class _ArticlesState extends State<Articles> {
                                           "assets/images/article6.png",
                                           width: 400,
                                           height: 200,
-                                          fit: BoxFit.cover,
+                                          // fit: BoxFit.cover,
                                         ),
                                       ),
                                       // const SizedBox(height: 15),
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 6",
+                                          "Prevalence of chronic pulmonary asperlogosis",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -465,7 +465,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 7
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -503,17 +503,17 @@ class _ArticlesState extends State<Articles> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                          "assets/images/IMG-20240319-WA0030.jpg",
+                                          "assets/images/article7.jpg",
                                           width: 400,
                                           height: 200,
-                                          fit: BoxFit.cover,
+                                          // fit: BoxFit.cover,
                                         ),
                                       ),
                                       // const SizedBox(height: 15),
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 7",
+                                          "All you need to know about tuberculosis (TB)",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -532,7 +532,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 8
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -570,17 +570,17 @@ class _ArticlesState extends State<Articles> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                          "assets/images/IMG-20240319-WA0030.jpg",
+                                          "assets/images/article8.jpg",
                                           width: 400,
                                           height: 200,
-                                          fit: BoxFit.cover,
+                                          // fit: BoxFit.cover,
                                         ),
                                       ),
                                       // const SizedBox(height: 15),
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 8",
+                                          "Risk factors for Tubercolosis",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -599,7 +599,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 9
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -637,7 +637,7 @@ class _ArticlesState extends State<Articles> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                          "assets/images/IMG-20240319-WA0030.jpg",
+                                         "assets/images/article9.jpg",
                                           width: 400,
                                           height: 200,
                                           fit: BoxFit.cover,
@@ -647,7 +647,7 @@ class _ArticlesState extends State<Articles> {
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 9",
+                                          "Misdiagnosis of chronic pulmonary aspergillosis as pulmonary tuberculosis",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,
@@ -666,7 +666,7 @@ class _ArticlesState extends State<Articles> {
                   ),
 
                   // Article 10
-                   const SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: GestureDetector(
@@ -704,7 +704,7 @@ class _ArticlesState extends State<Articles> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                          "assets/images/IMG-20240319-WA0030.jpg",
+                                          "assets/images/article10.jpg",
                                           width: 400,
                                           height: 200,
                                           fit: BoxFit.cover,
@@ -714,7 +714,7 @@ class _ArticlesState extends State<Articles> {
                                       const Align(
                                         alignment: Alignment.centerLeft,
                                         child: Text(
-                                          "Article 10",
+                                          "Serological evidence of chronic pulmonary Aspergillosis in tuberculosis patients",
                                           style: TextStyle(
                                             fontSize: 13,
                                             color: Colors.black,

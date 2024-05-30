@@ -3,6 +3,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:final_app/ui/hPage.dart';
 import 'package:final_app/ui/history.dart';
 //import 'package:final_app/ui/login.dart';
@@ -11,7 +12,7 @@ import 'package:final_app/ui/questions.dart';
 import 'package:final_app/ui/articles.dart';
 // import 'package:final_app/ui/scan.dart';
 import 'package:final_app/ui/upload.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:flutter/cupertino.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -39,161 +40,170 @@ class _HomeState extends State<Home> {
   }
 
   onTap(int pageIndex) {
-    pageController.jumpToPage(pageIndex);
+    if (pageIndex == 4) {
+      // Show the menu instead of changing the page
+      _showMenu();
+    } else {
+      pageController.jumpToPage(pageIndex);
+    }
+  }
+
+  void _showMenu() {
+    final RenderBox overlay =
+        Overlay.of(context).context.findRenderObject() as RenderBox;
+    final RenderBox itemBox = context.findRenderObject() as RenderBox;
+    final Offset itemPosition =
+        itemBox.localToGlobal(Offset.zero, ancestor: overlay);
+    final double iconWidth = itemBox.size.width;
+    final double iconHeight = itemBox.size.height;
+    const double menuHeight = 80.0;
+    const double menuWidth = 100.0;
+
+    // Coordinates for the positioning of the pop-up menu
+    final RelativeRect position = RelativeRect.fromRect(
+      Rect.fromPoints(
+        itemPosition.translate(iconHeight, menuWidth * 2 + iconWidth),
+        itemPosition.translate(
+            menuWidth / 2 - iconWidth / 2, iconHeight / 2 + menuHeight),
+      ),
+      Offset.zero & overlay.size,
+    );
+
+    showMenu(
+      context: context,
+      position: position,
+      items: [
+        PopupMenuItem(
+          child: Text(
+            "Learn more",
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          child: TextButton(
+            onPressed: () {
+              // Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Articles(),
+                ),
+              ).then((_) => Navigator.pop(context));
+            },
+            child: Text(
+              "Articles",
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          child: TextButton(
+            onPressed: () {
+              // Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Questions(),
+                ),
+              ).then((_) => Navigator.pop(context));
+            },
+            child: Text(
+              "FAQs",
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => _onBackButtonPressed(context),
-      child: Scaffold(
-        // drawer: const Drawer(), // Add the drawer here
-        body: PageView(
-          children: <Widget>[
-            HPage(),
-            Profile(),
-            // Scanner(),
-            History(),
-            // HPage(),
-          ],
-          controller: pageController,
-          onPageChanged: onPageChanged,
-          physics: const NeverScrollableScrollPhysics(),
-        ),
-        bottomNavigationBar: SizedBox(
-          height: 80,
-          child: CupertinoTabBar(
-            currentIndex: pageIndex,
-            onTap: onTap,
-            activeColor: Colors.blue,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home_outlined),
+      child: Container(
+        color: Colors.blue,
+        //function to help the bottom navigationbar be compatible on the iphone
+        child: SafeArea(
+          top: false,
+          child: ClipRect(
+            child: Scaffold(
+              // drawer: const Drawer(), // Add the drawer here
+              // extendBody: true,
+              body: PageView(
+                children: <Widget>[
+                  HPage(),
+                  Profile(),
+                  History(),
+                ],
+                controller: pageController,
+                onPageChanged: onPageChanged,
+                physics: const NeverScrollableScrollPhysics(),
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.person_outlined),
-              ),
-              BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () {
-                    showImagePickerOption(context);
-                  },
-                  child: Container(
-                    width: 70, // Adjust the width of the container
-                    height: 70,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.red, // Set the color of the circle here
-                    ),
-                    padding: EdgeInsets.all(8), // Adjust the padding as needed
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 35, // Set the color of the camera icon
-                        ),
-                        Text(
-                          'Scan',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12, // Adjust the font size as needed
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              bottomNavigationBar: 
+              Theme(
+                data: Theme.of(context).copyWith(
+                  iconTheme: IconThemeData(color: Colors.white),
                 ),
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.alarm),
-              ),
-              BottomNavigationBarItem(
-                icon: GestureDetector(
-                  onTap: () {
-                    final RenderBox overlay = Overlay.of(context)
-                        .context
-                        .findRenderObject() as RenderBox;
-                    final RenderBox itemBox =
-                        context.findRenderObject() as RenderBox;
-                    final Offset itemPosition =
-                        itemBox.localToGlobal(Offset.zero, ancestor: overlay);
-                    final double iconWidth = itemBox.size.width;
-                    final double iconHeight = itemBox.size.height;
-                    const double menuHeight = 80.0;
-                    const double menuWidth = 100.0;
-
-                    // coordinates for the positioning of the pop up menu
-                    final RelativeRect position = RelativeRect.fromRect(
-                      Rect.fromPoints(
-                        itemPosition.translate(
-                            iconHeight, menuWidth * 2 + iconWidth),
-                        itemPosition.translate(menuWidth / 2 - iconWidth / 2,
-                            iconHeight / 2 + menuHeight),
+                child: CurvedNavigationBar(
+                  backgroundColor: Colors.transparent,
+                  color: Colors.blue,
+                  buttonBackgroundColor: Colors.blue,
+                  height: 65,
+                  animationCurve: Curves.easeInOut,
+                  animationDuration: Duration(milliseconds: 400),
+                  onTap: onTap,
+                  items: <Widget>[
+                    Icon(Icons.home_outlined),
+                    Icon(Icons.person_outlined),
+                    GestureDetector(
+                      onTap: () {
+                        showImagePickerOption(context);
+                      },
+                      child: Container(
+                        width: 70, // Adjust the width of the container
+                        height: 70,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.red, // Set the color of the circle here
+                        ),
+                        padding:
+                            EdgeInsets.all(8), // Adjust the padding as needed
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 35, // Set the color of the camera icon
+                            ),
+                            Text(
+                              'Scan',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 12, // Adjust the font size as needed
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      Offset.zero & overlay.size,
-                    );
-
-                    showMenu(
-                      context: context,
-                      position: position,
-                      items: [
-                        PopupMenuItem(
-                          child: Text(
-                            "Learn more",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Articles(),
-                                ),
-                              ).then((_) => Navigator.pop(context));
-                            },
-                            child: Text(
-                              "Articles",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Questions(),
-                                ),
-                              ).then((_) => Navigator.pop(context));
-                            },
-                            child: Text(
-                              "FAQs",
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                  child: Icon(Icons.menu),
+                    ),
+                    Icon(Icons.alarm),
+                    Icon(Icons.menu),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
         ),
       ),
