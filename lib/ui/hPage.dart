@@ -6,6 +6,7 @@ import 'package:final_app/ui/Article3.dart';
 import 'package:final_app/ui/Article4.dart';
 import 'package:final_app/ui/Articles1.dart';
 import 'package:final_app/ui/articles.dart';
+import 'package:final_app/ui/history.dart';
 import 'package:final_app/ui/questions.dart';
 // import 'package:final_app/ui/readMore.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,8 @@ class _HPageState extends State<HPage> {
     super.initState();
     _imagePaths = [
       "assets/images/IMG-20240319-WA0030.jpg",
-      "assets/images/IMG-20240319-WA0033.jpg",
-      "assets/images/IMG-20240319-WA0034.jpg",
+      "assets/images/doctor2.jpeg",
+      "assets/images/rem.webp",
     ];
     _pageController = PageController();
     _startAutoSlide();
@@ -104,10 +105,33 @@ class _HPageState extends State<HPage> {
     }
   }
 
+  void _navigateToScreen(int index) {
+    switch (index) {
+      case 0:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => History()),
+        );
+        break;
+      case 1:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Articles()),
+        );
+        break;
+      case 2:
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => Questions()),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double containerWidth = screenWidth * 0.6; // 80% of screen width
+    double containerWidth = screenWidth * 0.7; // 80% of screen width
     double containerHeight = containerWidth * 1.5; // Aspect ratio of 3:2
 
     return Scaffold(
@@ -155,14 +179,17 @@ class _HPageState extends State<HPage> {
                             controller: _pageController,
                             itemCount: _imagePaths.length,
                             itemBuilder: (context, index) {
-                              return ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.asset(
-                                  _imagePaths[index],
-                                  fit: BoxFit.cover,
-                                  width: containerWidth,
-                                  height: containerHeight,
-                                  // width: 20,
+                              return GestureDetector(
+                                onTap: () => _navigateToScreen(index),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    _imagePaths[index],
+                                    fit: BoxFit.cover,
+                                    width: containerWidth,
+                                    height: containerHeight,
+                                    // width: 20,
+                                  ),
                                 ),
                               );
                             },

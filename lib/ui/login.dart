@@ -1,4 +1,4 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, avoid_print
+// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, avoid_print, use_build_context_synchronously, unused_local_variable, unused_catch_clause
 
 import 'package:final_app/ui/home.dart';
 import 'package:final_app/ui/signup.dart';
@@ -17,6 +17,24 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
 
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +44,8 @@ class _LoginState extends State<Login> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 7, 43, 92),
-              Color(0xff382743),
+              Colors.white,
+              Colors.blue,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -46,7 +64,7 @@ class _LoginState extends State<Login> {
                   height: 30,
                 ),
                 reusableTextField("Enter Email Address", Icons.person_outline,
-                    _emailTextController),
+                    _emailTextController, TextInputType.emailAddress),
                 const SizedBox(
                   height: 20,
                 ),
@@ -57,17 +75,21 @@ class _LoginState extends State<Login> {
                 const SizedBox(
                   height: 20,
                 ),
-                loginSignUpButton(context, true, () {
-                  FirebaseAuth.instance
-                      .signInWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
+                loginSignUpButton(context, true, () async {
+                  try {
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailTextController.text,
+                            password: _passwordTextController.text);
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const Home()));
-                  }).onError((error, stackTrace) {
+                  } on FirebaseAuthException catch (e) {
+                    _showErrorDialog(
+                        "Cannot login into the system, review the details entered.");
+                  } catch (error) {
                     print("Error ${error.toString()}");
-                  });
+                    _showErrorDialog("An unknown error occurred.");
+                  }
                 }),
                 signUpOption()
               ],

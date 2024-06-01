@@ -13,18 +13,18 @@ Image logoWidget(String imageName) {
 }
 
 TextField reusableTextField(
-    String text, IconData icon, TextEditingController controller) {
+    String text, IconData icon, TextEditingController controller, TextInputType keyboardType) {
   return TextField(
     controller: controller,
-    cursorColor: Colors.white,
-    style: TextStyle(color: Colors.white.withOpacity(0.9)),
+    cursorColor: Colors.black,
+    style: TextStyle(color: Colors.black.withOpacity(0.9)),
     decoration: InputDecoration(
       prefixIcon: Icon(
         icon,
-        color: Colors.white70,
+        color: Colors.black,
       ),
       labelText: text,
-      labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+      labelStyle: TextStyle(color: Colors.black.withOpacity(0.9)),
       filled: true,
       floatingLabelBehavior: FloatingLabelBehavior.never,
       fillColor: Colors.white.withOpacity(0.3),
@@ -32,7 +32,7 @@ TextField reusableTextField(
           borderRadius: BorderRadius.circular(30.0),
           borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
     ),
-    keyboardType: TextInputType.emailAddress,
+    keyboardType: keyboardType,
   );
 }
 
@@ -62,15 +62,15 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       obscureText: _obscureText,
       enableSuggestions: false,
       autocorrect: false,
-      cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white.withOpacity(0.9)),
+      cursorColor: Colors.black,
+      style: TextStyle(color: Colors.black.withOpacity(0.9)),
       decoration: InputDecoration(
         prefixIcon: Icon(
           widget.icon,
-          color: Colors.white70,
+          color: Colors.black,
         ),
         labelText: widget.text,
-        labelStyle: TextStyle(color: Colors.white.withOpacity(0.9)),
+        labelStyle: TextStyle(color: Colors.black.withOpacity(0.9)),
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         fillColor: Colors.white.withOpacity(0.3),
@@ -86,7 +86,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           },
           icon: Icon(
             _obscureText ? Icons.visibility : Icons.visibility_off,
-            color: Colors.white70,
+            color: Colors.black,
           ),
         ),
       ),

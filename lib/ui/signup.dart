@@ -1,8 +1,9 @@
-// ignore_for_file: prefer_final_fields, avoid_print
+// ignore_for_file: prefer_final_fields, avoid_print, use_build_context_synchronously
 
 import 'package:final_app/ui/home.dart';
 import 'package:final_app/widgets/reusable_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -16,6 +17,25 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +46,7 @@ class _SignUpState extends State<SignUp> {
         title: const Text(
           "Sign Up",
           style: TextStyle(
-              color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+              color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       body: Container(
@@ -35,8 +55,8 @@ class _SignUpState extends State<SignUp> {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 7, 43, 92),
-              Color(0xff382743),
+              Colors.white,
+              Colors.blue,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -54,34 +74,59 @@ class _SignUpState extends State<SignUp> {
                 //   height: 20,
                 // ),
                 reusableTextField("Enter UserName", Icons.person_outline,
-                    _userNameTextController),
+                    _userNameTextController, TextInputType.text),
                 const SizedBox(
                   height: 20,
                 ),
                 reusableTextField("Enter Email Address", Icons.person_outline,
-                    _emailTextController),
+                    _emailTextController, TextInputType.emailAddress),
                 const SizedBox(
                   height: 20,
                 ),
                 PasswordTextField(
-                    text: "Enter Password",
+                    text: "Enter Password", //(6/ more characters)
                     icon: Icons.lock_outlined,
                     controller: _passwordTextController),
                 const SizedBox(
                   height: 30,
                 ),
-                loginSignUpButton(context, false, () {
-                  FirebaseAuth.instance
-                      .createUserWithEmailAndPassword(
-                          email: _emailTextController.text,
-                          password: _passwordTextController.text)
-                      .then((value) {
+                loginSignUpButton(context, false, () async {
+                  // error message that appears when the password has less than 6 characters
+                  if (_passwordTextController.text.length < 6) {
+                    _showErrorDialog("Password must be at least 6 characters.");
+                    return;
+                  }
+
+                  try {
+                    UserCredential userCredential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: _emailTextController.text,
+                      password: _passwordTextController.text,
+                    );
+
+                    // Store additional details in Firestore
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(userCredential.user!.uid)
+                        .set({
+                      'username': _userNameTextController.text,
+                      'email': _emailTextController.text,
+                      'password': _passwordTextController.text,
+                    });
+
                     print("Created New Account");
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const Home()));
-                  }).onError((error, stackTrace) {
-                    print("Error ${error.toString()}");
-                  });
+                  } on FirebaseAuthException catch (e) {
+                    // error message incase user enters an email that already exists in the firebase authentication
+                    if (e.code == 'email-already-in-use') {
+                      _showErrorDialog("Email is already in use.");
+                    } else {
+                      _showErrorDialog("Error: ${e.message}");
+                    }
+                  } catch (error) {
+                    _showErrorDialog("An unknown error occurred.");
+                  }
                 })
               ],
             ),
