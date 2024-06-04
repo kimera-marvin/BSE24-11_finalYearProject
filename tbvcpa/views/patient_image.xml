@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--===Search-->
+    <record id="view_patient_image_filter" model="ir.ui.view">
+        <field name="name">patient.image.select</field>
+        <field name="model">patient.image</field>
+        <field name="arch" type="xml">
+            <search string="Search Patient">
+                <field name="name" />
+            </search>
+        </field>
+    </record>
+
+
+    <!--Form-->
+    <record id="view_patient_image_form" model="ir.ui.view">
+        <field name="name">patient.image.form</field>
+        <field name="model">patient.image</field>
+        <field name="priority" eval="1" />
+        <field name="arch" type="xml">
+            <form string="Patient Image">
+                <header>
+                    <button name="action_predict" class="btn btn-success" string="PREDICT"
+                        type="object" /> 
+                </header>
+                <sheet>
+                    <div class="oe_title mb24">
+                        <!--name-->
+                        <div class="oe_title">
+                            <label for="name" string="Name" />
+                            <h1>
+                                <field name="name" required="1" />
+                            </h1>
+                        </div>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="age" />
+                            <field name="gender" />
+                        </group>
+                        <group>
+                            <field name="result_predicted" />
+                        </group>
+                    </group>
+                    <notebook colspan="4">
+                        <!--general
+                        information -->
+                        <page name="image" string="Image">
+                            <field name="xray_image" widget="image" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--===Tree-->
+    <record id="view_patient_image_tree" model="ir.ui.view">
+        <field name="name">patient.image.tree</field>
+        <field name="model">patient.image</field>
+        <field eval="8" name="priority" />
+        <field name="arch" type="xml">
+            <tree string="Images">
+
+                <field name="name" />
+                <field name="age" />
+                <field name="gender" />
+                <field name="result_predicted" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Kanban -->
+    <record id="view_patient_image_kanban" model="ir.ui.view">
+        <field name="name">patient.image.view.kanban</field>
+        <field name="model">patient.image</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name" />
+                <field name="xray_image" />
+                <field name="age" />
+                <field name="gender" />
+                <field name="result_predicted" />
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
+                            <field 
+                                name="xray_image" class="o_kanban_image_fill_left"
+                                options="{'size': [150,100]}" widget="image" />
+                            <div class="oe_kanban_details ml8">
+                                <div class="o_kanban_record_top">
+                                    <strong class="o_kanban_record_title">
+                                        <field name="name" />
+                                    </strong>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <ul class="ps-1 mb-0 list-unstyled">
+                                        <li>
+                                            <strong>Age: </strong>
+                                            <field name="age" />
+                                        </li>
+                                        <li>
+                                            <strong>Gender: </strong>
+                                            <field name="gender" />
+                                           
+                                        </li>
+                                        <li>
+                                            <strong>Result: </strong>
+                                            <field name="result_predicted" widget="badge"
+                                                decoration-info="result_predicted=='TB'"
+                                                decoration-primary="result_predicted=='CPA'" />
+
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--===1.(Action) -->
+    <record id="action_patient_image" model="ir.actions.act_window">
+        <field name="name">Uploaded Images</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">patient.image</field>
+        <field name="view_mode">kanban,tree,form,search</field>
+        <field name="view_id" ref="tbvcpa.view_patient_image_kanban" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Uploaded Images
+            </p>
+        </field>
+    </record>
+   
+</odoo>
