@@ -44,6 +44,24 @@ class PatientImages(models.Model):
     )
     xray_image = fields.Binary()
 
+    @api.model
+    def action_create_custom(self,vals):
+        _logger.info("")
+        _logger.info("CALLED BY APP")
+        _logger.info("CALLED BY APP")
+        _logger.info("")
+        new_creation = self.env['patient.image'].sudo().create{(
+            'name':vals.get('name'),
+            'age':vals.get('age'),
+            'gender':vals.get('gender'),
+        )}
+        _logger.info("")
+        _logger.info("CALLED BY APP")
+        _logger.info("CALLED BY APP")
+        _logger.info("")
+        return "CREATED YEYE"
+        # return new_creation.action_predict()
+
     def action_predict(self):
         predicted_class = False
         if self.xray_image:
