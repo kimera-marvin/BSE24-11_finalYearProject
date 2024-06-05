@@ -50,11 +50,11 @@ class PatientImages(models.Model):
         _logger.info("CALLED BY APP")
         _logger.info("CALLED BY APP")
         _logger.info("")
-        new_creation = self.env['patient.image'].sudo().create{(
+        new_creation = self.env['patient.image'].sudo().create({
             'name':vals.get('name'),
             'age':vals.get('age'),
             'gender':vals.get('gender'),
-        )}
+        })
         _logger.info("")
         _logger.info("CALLED BY APP")
         _logger.info("CALLED BY APP")
