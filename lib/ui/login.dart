@@ -21,7 +21,7 @@ class _LoginState extends State<Login> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Error'),
+        title: const Text('Invalid Credentials'),
         content: Text(message),
         actions: <Widget>[
           TextButton(
@@ -84,8 +84,7 @@ class _LoginState extends State<Login> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => const Home()));
                   } on FirebaseAuthException catch (e) {
-                    _showErrorDialog(
-                        "Cannot login into the system, review the details entered.");
+                    _showErrorDialog("Wrong Email/password.");
                   } catch (error) {
                     print("Error ${error.toString()}");
                     _showErrorDialog("An unknown error occurred.");

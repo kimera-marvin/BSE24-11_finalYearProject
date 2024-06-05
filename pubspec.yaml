@@ -79,12 +79,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/coronavirus-tuberculosis_SH_1064066363.png
     - assets/images/OIP.jpg
-    - assets/images/IMG-20240319-WA0030.jpg
-    - assets/images/IMG-20240319-WA0033.jpg
-    - assets/images/IMG-20240319-WA0034.jpg
-    - assets/images/IMG-20240319-WA0031.jpg
+    - assets/images/coronavirus-tuberculosis_SH_1064066363.png
     - assets/images/article1.png
     - assets/images/article2.png
     - assets/images/article3.png
@@ -97,6 +93,8 @@ flutter:
     - assets/images/article10.jpg
     - assets/images/doctor2.jpeg
     - assets/images/rem.webp
+    - assets/images/WhatsApp Image 2024-06-05 at 00.27.15_1d323fd7.jpg
+    - assets/images/WhatsApp Image 2024-06-05 at 00.27.15_b601d0ad.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

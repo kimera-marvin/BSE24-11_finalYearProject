@@ -31,8 +31,8 @@ class _HPageState extends State<HPage> {
   void initState() {
     super.initState();
     _imagePaths = [
-      "assets/images/IMG-20240319-WA0030.jpg",
-      "assets/images/doctor2.jpeg",
+      "assets/images/WhatsApp Image 2024-06-05 at 00.27.15_b601d0ad.jpg",
+      "assets/images/WhatsApp Image 2024-06-05 at 00.27.15_1d323fd7.jpg",
       "assets/images/rem.webp",
     ];
     _pageController = PageController();
@@ -412,106 +412,104 @@ class _HPageState extends State<HPage> {
                                     ),
                                     // ),
                                     SizedBox(width: 10),
-                                    RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          WidgetSpan(
-                                            child: Container(
-                                              margin: EdgeInsets.only(right: 8),
+                                    Column(
+                                      children: const [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "\u2022",
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
                                               child: Text(
-                                                "\u2022",
+                                                "Without Active TBorCPA",
                                                 style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.grey,
+                                                  fontSize: 13,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: "Without Active TB or CPA\n",
-                                            style: TextStyle(
-                                              fontSize: 13, // Text size
-                                              color: Colors.black,
+                                            SizedBox(width: 20),
+                                            Text(
+                                              "0",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          // TextSpan(
-                                          //   text: "0",
-                                          //   style: TextStyle(
-                                          //     fontSize: 13,
-                                          //     fontWeight: FontWeight.bold,
-                                          //     color: Colors.black,
-                                          //   ),
-                                          // ),
-                                          WidgetSpan(
-                                            child: Container(
-                                              margin: EdgeInsets.only(right: 8),
+                                          ],
+                                        ),
+                                        SizedBox(width: 15),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "\u2022",
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
                                               child: Text(
-                                                "\u2022",
+                                                "With Active TB",
                                                 style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.blue,
+                                                  fontSize: 13,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: "With Active TB\n",
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black,
+                                            SizedBox(width: 77),
+                                            Text(
+                                              "0",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          // TextSpan(
-                                          //   text: "0",
-                                          //   style: TextStyle(
-                                          //     fontSize: 13,
-                                          //     fontWeight: FontWeight.bold,
-                                          //     color: Colors.black,
-                                          //   ),
-                                          // ),
-                                          WidgetSpan(
-                                            child: Container(
-                                              margin: EdgeInsets.only(right: 8),
+                                          ],
+                                        ),
+                                        SizedBox(width: 15),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "\u2022",
+                                              style: TextStyle(
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.red,
+                                              ),
+                                            ),
+                                            SizedBox(width: 5),
+                                            Align(
+                                              alignment: Alignment.centerLeft,
                                               child: Text(
-                                                "\u2022",
+                                                "With CPA",
                                                 style: TextStyle(
-                                                  fontSize: 30,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.red,
+                                                  fontSize: 13,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                          TextSpan(
-                                            text: "With CPA",
-                                            style: TextStyle(
-                                              fontSize: 13,
-                                              color: Colors.black,
+                                            SizedBox(width: 108),
+                                            Text(
+                                              "0",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          // TextSpan(
-                                          //   text: "0",
-                                          //   style: TextStyle(
-                                          //     fontSize: 13,
-                                          //     fontWeight: FontWeight.bold,
-                                          //     color: Colors.black,
-                                          //   ),
-                                          // ),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(width: 20),
-                                    Text(
-                                      "0\n\n"
-                                      "0\n\n"
-                                      "0",
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.black,
-                                      ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),

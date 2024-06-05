@@ -236,37 +236,16 @@ class _ProfileState extends State<Profile> {
                                             ),
                                           ),
                                         ),
-                                        const SizedBox(width: 160),
+                                        const SizedBox(width: 141),
                                         // the button
-                                        GestureDetector(
-                                          onTap: () {
+                                        Switch(
+                                          value: isToggled,
+                                          onChanged: (value) {
                                             setState(() {
-                                              // Toggle the state
-                                              isToggled = !isToggled;
+                                              isToggled = value;
                                             });
                                           },
-                                          child: AnimatedAlign(
-                                            alignment: isToggled
-                                                ? Alignment.centerRight
-                                                : Alignment.centerLeft,
-                                            duration: const Duration(
-                                                milliseconds: 300),
-                                            curve: Curves.easeInOut,
-                                            child: Container(
-                                              width: 40,
-                                              height: 40,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white,
-                                              ),
-                                              child: Icon(
-                                                isToggled
-                                                    ? Icons.toggle_on
-                                                    : Icons.toggle_off,
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          ),
+                                          activeColor: Colors.blue,
                                         ),
                                       ],
                                     ),
