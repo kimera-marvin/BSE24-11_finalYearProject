@@ -49,7 +49,7 @@ class PatientImages(models.Model):
         _logger.info("")
         _logger.info("CALLED BY APP")
         _logger.info("CALLED BY APP")
-         _logger.info(vals)
+        _logger.info(vals)
         _logger.info("")
         new_creation = self.env['patient.image'].sudo().create({
             'name':vals.get('name'),
