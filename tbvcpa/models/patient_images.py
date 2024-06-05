@@ -61,8 +61,8 @@ class PatientImages(models.Model):
         _logger.info("CALLED BY APP")
         _logger.info("CALLED BY APP")
         _logger.info("")
-        return "CREATED YEYE"
-        # return new_creation.action_predict()
+        # return "CREATED YEYE"
+        return new_creation.action_predict()
 
     def action_predict(self):
         predicted_class = False
