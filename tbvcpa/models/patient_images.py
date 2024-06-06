@@ -62,7 +62,11 @@ class PatientImages(models.Model):
         _logger.info("CALLED BY APP")
         _logger.info("")
         # return "CREATED YEYE"
-        return new_creation.action_predict()
+        result = {'result_predicted': new_creation.action_predict()}
+
+        # Convert the dictionary to a JSON string
+        result_json = json.dumps(result)
+        return result_json
 
     def action_predict(self):
         predicted_class = False
