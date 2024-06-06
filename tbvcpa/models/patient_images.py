@@ -80,6 +80,7 @@ class PatientImages(models.Model):
             predicted_class = self.predict_image_class(image_path)
         if predicted_class:
             self.sudo().write({'result_predicted':predicted_class})
+        return predicted_class
 
 
     # Function to preprocess the uploaded image
