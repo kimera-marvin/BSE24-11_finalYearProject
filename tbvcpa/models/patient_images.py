@@ -17,6 +17,8 @@ from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 import logging
 _logger = logging.getLogger(__name__)
+import json
+
 
 
 class PatientImages(models.Model):
