@@ -1,27 +1,74 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, deprecated_member_use, use_build_context_synchronously
 
 import 'package:final_app/ui/privacy.dart';
-import 'package:final_app/ui/questions.dart';
+// import 'package:final_app/ui/questions.dart';
 import 'package:final_app/ui/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:final_app/ui/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final String username;
+  final String email;
 
+  const Profile({Key? key, required this.username, required this.email})
+      : super(key: key);
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
   bool isToggled = false;
+  late String username;
+  late String email;
+  bool isEditingUsername = false;
+  // bool isEditingEmail = false;
+  final TextEditingController usernameController = TextEditingController();
+  // final TextEditingController emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the fields from widget's fields
+    username = widget.username;
+    email = widget.email;
+    usernameController.text = username;
+    // emailController.text = email;
+  }
+
+  Future<void> updateUserProfile() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      try {
+        // Update the username in Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({
+          'username': usernameController.text,
+        });
+
+        setState(() {
+          username = usernameController.text;
+          isEditingUsername = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully!')),
+        );
+      } catch (e) {
+        print('Failed to update profile: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update profile: $e')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Home'),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -90,55 +137,70 @@ class _ProfileState extends State<Profile> {
                                   top: 10.0,
                                   bottom: 12.0,
                                 ),
-                                child: const Column(
+                                child: Column(
                                   children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "User Name : ",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color.fromARGB(
-                                              255, 127, 171, 207),
+                                    Row(
+                                      children: [
+                                        if (isEditingUsername)
+                                          Expanded(
+                                            child: TextField(
+                                              controller: usernameController,
+                                              decoration: const InputDecoration(
+                                                labelText: 'Username',
+                                                border: OutlineInputBorder(),
+                                              ),
+                                            ),
+                                          )
+                                        else
+                                          Expanded(
+                                            child: Text(
+                                              "User Name: $username",
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Color.fromARGB(
+                                                    255, 127, 171, 207),
+                                              ),
+                                            ),
+                                          ),
+                                        // const SizedBox(width: 5),
+                                        IconButton(
+                                          icon: const Icon(Icons.create,
+                                              color: Colors.black),
+                                          onPressed: () {
+                                            setState(() {
+                                              isEditingUsername = true;
+                                            });
+                                          },
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    SizedBox(height: 15),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "First Name : ",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color.fromARGB(
-                                              255, 127, 171, 207),
+                                    const SizedBox(height: 15),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "Email: $email",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Color.fromARGB(
+                                                  255, 127, 171, 207),
+                                            ),
+                                          ),
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                    SizedBox(height: 15),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Last Name : ",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color.fromARGB(
-                                              255, 127, 171, 207),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 15),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Email Address : ",
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                          color: Color.fromARGB(
-                                              255, 127, 171, 207),
-                                        ),
-                                      ),
-                                    ),
+                                    // const SizedBox(height: 15),
+                                    // const Align(
+                                    //   alignment: Alignment.centerLeft,
+                                    //   child: Text(
+                                    //     "Password : ",
+                                    //     style: TextStyle(
+                                    //       fontSize: 18,
+                                    //       color: Color.fromARGB(
+                                    //           255, 127, 171, 207),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -160,13 +222,7 @@ class _ProfileState extends State<Profile> {
                         // color: Colors.lightBlueAccent,
                       ),
                       child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const Questions()),
-                          );
-                        },
+                        onPressed: updateUserProfile,
                         child: const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 90.0),
                           child: Text(
@@ -345,11 +401,11 @@ class _ProfileState extends State<Profile> {
                       child: const Text('Logout'),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 80),
                 ],
               ),
             ),
-            // const SizedBox(height: 20),
+            // const SizedBox(height: 80),
           ],
         ),
       ),

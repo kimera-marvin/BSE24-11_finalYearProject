@@ -1,37 +1,51 @@
-// ignore_for_file: avoid_print, sort_child_properties_last, library_private_types_in_public_api, prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_local_variable, unused_field, use_build_context_synchronously, deprecated_member_use
+// ignore_for_file: library_private_types_in_public_api, deprecated_member_use, sort_child_properties_last, prefer_const_constructors
 
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:final_app/ui/articles.dart';
 import 'package:final_app/ui/hPage.dart';
 import 'package:final_app/ui/history.dart';
-//import 'package:final_app/ui/login.dart';
 import 'package:final_app/ui/profile.dart';
 import 'package:final_app/ui/questions.dart';
-import 'package:final_app/ui/articles.dart';
-// import 'package:final_app/ui/scan.dart';
-import 'package:final_app/ui/upload.dart';
-// import 'package:flutter/cupertino.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:final_app/widgets/baseScreen.dart';
+import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-// import 'package:focused_menu/focused_menu.dart';
-// import 'package:focused_menu/modals.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final String username;
+  final String email;
+  final int currentIndex;
+
+  const Home({
+    Key? key,
+    required this.username,
+    required this.email,
+    this.currentIndex = 0,
+  }) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  // ignore: unused_field
   Uint8List? _image;
   File? selectedIMage;
   late PageController pageController = PageController();
   int pageIndex = 0;
   bool showOptions = false;
+  late String username;
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    username = widget.username;
+    email = widget.email;
+    pageIndex = widget.currentIndex;
+    pageController = PageController(initialPage: pageIndex);
+  }
 
   onPageChanged(int pageIndex) {
     setState(() {
@@ -41,9 +55,14 @@ class _HomeState extends State<Home> {
 
   onTap(int pageIndex) {
     if (pageIndex == 4) {
-      // Show the menu instead of changing the page
+      setState(() {
+        this.pageIndex = 4;
+      });
       _showMenu();
     } else {
+      setState(() {
+        this.pageIndex = pageIndex;
+      });
       pageController.jumpToPage(pageIndex);
     }
   }
@@ -59,7 +78,6 @@ class _HomeState extends State<Home> {
     const double menuHeight = 80.0;
     const double menuWidth = 100.0;
 
-    // Coordinates for the positioning of the pop-up menu
     final RelativeRect position = RelativeRect.fromRect(
       Rect.fromPoints(
         itemPosition.translate(iconHeight, menuWidth * 2 + iconWidth),
@@ -73,7 +91,7 @@ class _HomeState extends State<Home> {
       context: context,
       position: position,
       items: [
-        PopupMenuItem(
+        const PopupMenuItem(
           child: Text(
             "Learn more",
             style: TextStyle(
@@ -87,15 +105,21 @@ class _HomeState extends State<Home> {
         PopupMenuItem(
           child: TextButton(
             onPressed: () {
-              // Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Articles(),
+                  builder: (context) => ScreenWithNavigationBar(
+                    child: Articles(),
+                    currentIndex: pageIndex,
+                    username: username,
+                    email: email,
+                  ),
                 ),
-              ).then((_) => Navigator.pop(context));
+              ).then((_) {
+                Navigator.pop(context); // Close the menu
+              });
             },
-            child: Text(
+            child: const Text(
               "Articles",
               style: TextStyle(
                 fontSize: 15,
@@ -107,15 +131,21 @@ class _HomeState extends State<Home> {
         PopupMenuItem(
           child: TextButton(
             onPressed: () {
-              // Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => Questions(),
+                  builder: (context) => ScreenWithNavigationBar(
+                    child: Questions(),
+                    currentIndex: pageIndex,
+                    username: username,
+                    email: email,
+                  ),
                 ),
-              ).then((_) => Navigator.pop(context));
+              ).then((_) {
+                Navigator.pop(context); // Close the menu
+              });
             },
-            child: Text(
+            child: const Text(
               "FAQs",
               style: TextStyle(
                 fontSize: 15,
@@ -134,170 +164,30 @@ class _HomeState extends State<Home> {
       onWillPop: () => _onBackButtonPressed(context),
       child: Container(
         color: Colors.blue,
-        //function to help the bottom navigationbar be compatible on the iphone
         child: SafeArea(
           top: false,
           child: ClipRect(
             child: Scaffold(
-              // drawer: const Drawer(), // Add the drawer here
-              // extendBody: true,
               body: PageView(
                 children: <Widget>[
-                  HPage(),
-                  Profile(),
-                  History(),
+                  HPage(userEmail: widget.email),
+                  Profile(username: username, email: email),
+                  Placeholder(),
+                  History(userEmail: widget.email),
+                  Placeholder(),
                 ],
                 controller: pageController,
                 onPageChanged: onPageChanged,
                 physics: const NeverScrollableScrollPhysics(),
               ),
-              bottomNavigationBar: 
-              Theme(
-                data: Theme.of(context).copyWith(
-                  iconTheme: IconThemeData(color: Colors.white),
-                ),
-                child: CurvedNavigationBar(
-                  backgroundColor: Colors.transparent,
-                  color: Colors.blue,
-                  buttonBackgroundColor: Colors.blue,
-                  height: 65,
-                  animationCurve: Curves.easeInOut,
-                  animationDuration: Duration(milliseconds: 400),
-                  onTap: onTap,
-                  items: <Widget>[
-                    Icon(Icons.home_outlined),
-                    Icon(Icons.person_outlined),
-                    GestureDetector(
-                      onTap: () {
-                        showImagePickerOption(context);
-                      },
-                      child: Container(
-                        width: 70, // Adjust the width of the container
-                        height: 70,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.red, // Set the color of the circle here
-                        ),
-                        padding:
-                            EdgeInsets.all(8), // Adjust the padding as needed
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.camera_alt,
-                              color: Colors.white,
-                              size: 35, // Set the color of the camera icon
-                            ),
-                            Text(
-                              'Scan',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12, // Adjust the font size as needed
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Icon(Icons.alarm),
-                    Icon(Icons.menu),
-                  ],
-                ),
+              bottomNavigationBar: CustomCurvedNavigationBar(
+                pageController: pageController,
+                onTap: onTap,
+                currentIndex: pageIndex,
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  void showImagePickerOption(BuildContext context) {
-    showModalBottomSheet(
-      backgroundColor: Colors.blue[100],
-      context: context,
-      builder: (builder) {
-        return Padding(
-          padding: EdgeInsets.all(18.0),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 4.5,
-            child: Row(
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _pickImageFromGallery();
-                    },
-                    child: SizedBox(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.image,
-                            size: 70,
-                          ),
-                          Text("Photo"),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _pickImageFromCamera();
-                    },
-                    child: SizedBox(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.camera_alt,
-                            size: 70,
-                          ),
-                          Text("Camera"),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  // Photo
-  Future _pickImageFromGallery() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) return;
-    setState(() {
-      selectedIMage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
-    });
-    Navigator.of(context).pop();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Upload(image: _image),
-      ),
-    );
-  }
-
-  // Camera
-  Future _pickImageFromCamera() async {
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (returnImage == null) return;
-    setState(() {
-      selectedIMage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
-    });
-    Navigator.of(context).pop();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Upload(image: _image),
       ),
     );
   }

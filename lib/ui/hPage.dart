@@ -14,7 +14,9 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HPage extends StatefulWidget {
-  const HPage({Key? key}) : super(key: key);
+  final String userEmail;
+
+  const HPage({Key? key, required this.userEmail}) : super(key: key);
 
   @override
   _HPageState createState() => _HPageState();
@@ -33,7 +35,7 @@ class _HPageState extends State<HPage> {
     _imagePaths = [
       "assets/images/WhatsApp Image 2024-06-05 at 00.27.15_b601d0ad.jpg",
       "assets/images/WhatsApp Image 2024-06-05 at 00.27.15_1d323fd7.jpg",
-      "assets/images/rem.webp",
+      "assets/images/WhatsApp Image 2024-06-05 at 09.12.57_14b0891d.jpg",
     ];
     _pageController = PageController();
     _startAutoSlide();
@@ -110,7 +112,7 @@ class _HPageState extends State<HPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => History()),
+          MaterialPageRoute(builder: (context) => History(userEmail: widget.userEmail)),
         );
         break;
       case 1:

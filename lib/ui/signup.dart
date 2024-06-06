@@ -115,8 +115,15 @@ class _SignUpState extends State<SignUp> {
                     });
 
                     print("Created New Account");
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const Home()));
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Home(
+                          username: _userNameTextController.text,
+                          email: _emailTextController.text,
+                        ),
+                      ),
+                    );
                   } on FirebaseAuthException catch (e) {
                     // error message incase user enters an email that already exists in the firebase authentication
                     if (e.code == 'email-already-in-use') {

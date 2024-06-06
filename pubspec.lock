@@ -456,6 +456,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  odoo_rpc:
+    dependency: "direct main"
+    description:
+      name: odoo_rpc
+      sha256: "16cdaa4775e80215ab9d3ffa163eed9106cccc2d8a4527a0937686604360d788"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.2"
   path:
     dependency: transitive
     description:
