@@ -45,6 +45,7 @@ class PatientImages(models.Model):
        readonly=True,
     )
     xray_image = fields.Binary()
+    user_email = fields.Char()
 
     @api.model
     def action_create_custom(self,vals):
@@ -58,6 +59,7 @@ class PatientImages(models.Model):
             'age':vals.get('age'),
             'gender':vals.get('gender').lower(),
             'xray_image':vals.get('xray_image'),
+            'user_email':vals.get('user_email'),
         })
         _logger.info("")
         _logger.info("CALLED BY APP")
