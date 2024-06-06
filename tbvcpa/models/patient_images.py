@@ -39,6 +39,7 @@ class PatientImages(models.Model):
         selection=[
             ("TB", "Active TB"),
             ("CPA", "CPA"),
+            ("Normal", "None"),
             ("none", "None"),
         ],
        tracking=True,
@@ -96,29 +97,56 @@ class PatientImages(models.Model):
     # Function to predict the class of the image with rejection option
     def predict_image_class(self,image_path, threshold=0.5):
         # Load the trained model (modify the path to your downloaded model)
-        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier.h5'
+        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier_v_13.h5'
         model = load_model(model_path)
 
-        img_array = self.preprocess_image(image_path)
-        prediction = model.predict(img_array)[0][0]  # Get the prediction probability
-        _logger.info("")
-        _logger.info(f"Uploaded Image: {image_path}, Predicted Class: {prediction}")
-        _logger.info("")
-        if prediction < threshold - 0.2:  # Adjust this margin based on experimentation
-            _logger.info("")
-            _logger.info("TB")
-            _logger.info("")
-            return "TB"
-        elif prediction > threshold + 0.2:  # Adjust this margin based on experimentation
-            _logger.info("")
-            _logger.info("CPA")
-            _logger.info("")
-            return "CPA"
-        else:
-            _logger.info("")
-            _logger.info("None")
-            _logger.info("")
-            return "none" #Uncertain - Image may not belong to TB or CPA
 
-   
-   
+        # Preprocess the uploaded image
+        preprocessed_image = self.preprocess_image(image_path)
+
+        # Make predictions
+        predictions = model.predict(preprocessed_image)
+
+        # Get class labels
+        class_labels = ['CPA', 'Normal', 'TB']  # Replace with your class labels
+
+        # Display the uploaded image
+        # display(Image(filename))
+
+        # Display predictions
+        for i, prob in enumerate(predictions[0]):
+            _logger.info("")
+            _logger.info(f"{class_labels[i]}: {prob}")
+            _logger.info("")
+
+        # Get the predicted class label
+        predicted_class_index = np.argmax(predictions)
+        predicted_class_label = class_labels[predicted_class_index]
+        predicted_class_prob = predictions[0][predicted_class_index]
+        threshold = 0.85  # Define the threshold probability
+
+
+        # Check if the predicted class probability is greater than or equal to the threshold
+        if predicted_class_prob >= threshold:
+            # Predicted class with sufficient confidence
+            predicted_class_label = class_labels[predicted_class_index]
+            if predicted_class_label == 'Normal':
+                predicted_class_label = 'none'
+        else:
+            # Predicted class with insufficient confidence
+            predicted_class_label = 'none'
+        _logger.info("")
+        _logger.info("Predicted class:")
+        _logger.info(predicted_class_label)
+        _logger.info("")
+        return predicted_class_label
+
+
+
+
+
+
+
+
+
+
