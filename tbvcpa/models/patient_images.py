@@ -56,7 +56,7 @@ class PatientImages(models.Model):
         new_creation = self.env['patient.image'].sudo().create({
             'name':vals.get('name'),
             'age':vals.get('age'),
-            'gender':vals.get('gender'),
+            'gender':vals.get('gender').lower(),
             'xray_image':vals.get('xray_image'),
         })
         _logger.info("")
