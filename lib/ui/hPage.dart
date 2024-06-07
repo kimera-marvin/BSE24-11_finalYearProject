@@ -1,4 +1,4 @@
-// ignore_for_file: file_names, avoid_print, prefer_const_constructors, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
+// ignore_for_file: file_names, avoid_print, prefer_const_constructors, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers, sort_child_properties_last
 
 // import 'package:final_app/ui/questions.dart';
 import 'package:final_app/ui/Article2.dart';
@@ -8,15 +8,21 @@ import 'package:final_app/ui/Articles1.dart';
 import 'package:final_app/ui/articles.dart';
 import 'package:final_app/ui/history.dart';
 import 'package:final_app/ui/questions.dart';
+import 'package:final_app/widgets/screen.dart';
 // import 'package:final_app/ui/readMore.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class HPage extends StatefulWidget {
+  final String username;
   final String userEmail;
 
-  const HPage({Key? key, required this.userEmail}) : super(key: key);
+  const HPage({
+    Key? key,
+    required this.username,
+    required this.userEmail,
+  }) : super(key: key);
 
   @override
   _HPageState createState() => _HPageState();
@@ -28,6 +34,8 @@ class _HPageState extends State<HPage> {
   int _currentPageIndex = 0;
   int _currentIndex = 0;
   final CarouselController _carouselController = CarouselController();
+  late String username;
+  late String userEmail;
 
   @override
   void initState() {
@@ -38,6 +46,8 @@ class _HPageState extends State<HPage> {
       "assets/images/WhatsApp Image 2024-06-05 at 09.12.57_14b0891d.jpg",
     ];
     _pageController = PageController();
+    username = widget.username;
+    userEmail = widget.userEmail;
     _startAutoSlide();
   }
 
@@ -112,19 +122,49 @@ class _HPageState extends State<HPage> {
       case 0:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => History(userEmail: widget.userEmail)),
+          MaterialPageRoute(
+            builder: (context) => ScreenWithNavigationBar(
+              child: History(
+                username: username,
+                userEmail: widget.userEmail,
+              ),
+              currentIndex: 3,
+              username: username,
+              email: userEmail,
+            ),
+          ),
         );
         break;
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Articles()),
+          MaterialPageRoute(
+            builder: (context) => ScreenWithNavigationBar(
+              child: Articles(
+                username: username,
+                email: userEmail,
+              ),
+              currentIndex: 4,
+              username: username,
+              email: userEmail,
+            ),
+          ),
         );
         break;
       case 2:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => Questions()),
+          MaterialPageRoute(
+            builder: (context) => ScreenWithNavigationBar(
+              child: Questions(
+                username: username,
+                email: userEmail,
+              ),
+              currentIndex: 4,
+              username: username,
+              email: userEmail,
+            ),
+          ),
         );
         break;
     }
@@ -344,7 +384,17 @@ class _HPageState extends State<HPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => Questions()),
+                                        builder: (context) =>
+                                            ScreenWithNavigationBar(
+                                          child: Questions(
+                                            username: username,
+                                            email: userEmail,
+                                          ),
+                                          currentIndex: 4,
+                                          username: username,
+                                          email: userEmail,
+                                        ),
+                                      ),
                                     );
                                   },
                                   child: Padding(
@@ -634,7 +684,17 @@ class _HPageState extends State<HPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Articles()),
+                                    builder: (context) =>
+                                        ScreenWithNavigationBar(
+                                      child: Articles(
+                                        username: username,
+                                        email: userEmail,
+                                      ),
+                                      currentIndex: 4,
+                                      username: username,
+                                      email: userEmail,
+                                    ),
+                                  ),
                                 );
                               },
                               child: Padding(

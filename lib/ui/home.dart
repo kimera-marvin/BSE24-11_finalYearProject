@@ -109,7 +109,7 @@ class _HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScreenWithNavigationBar(
-                    child: Articles(),
+                    child: Articles(username: username, email: email),
                     currentIndex: pageIndex,
                     username: username,
                     email: email,
@@ -135,7 +135,7 @@ class _HomeState extends State<Home> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => ScreenWithNavigationBar(
-                    child: Questions(),
+                    child: Questions(username: username, email: email),
                     currentIndex: pageIndex,
                     username: username,
                     email: email,
@@ -170,10 +170,10 @@ class _HomeState extends State<Home> {
             child: Scaffold(
               body: PageView(
                 children: <Widget>[
-                  HPage(userEmail: widget.email),
+                  HPage(username: username, userEmail: widget.email),
                   Profile(username: username, email: email),
                   Placeholder(),
-                  History(userEmail: widget.email),
+                  History(username: username, userEmail: widget.email),
                   Placeholder(),
                 ],
                 controller: pageController,
@@ -184,6 +184,8 @@ class _HomeState extends State<Home> {
                 pageController: pageController,
                 onTap: onTap,
                 currentIndex: pageIndex,
+                username: username,
+                email: email,
               ),
             ),
           ),

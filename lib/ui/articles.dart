@@ -8,16 +8,36 @@ import 'package:final_app/ui/Article7.dart';
 import 'package:final_app/ui/Article8.dart';
 import 'package:final_app/ui/Article9.dart';
 import 'package:final_app/ui/Articles1.dart';
+// import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
 
 class Articles extends StatefulWidget {
-  const Articles({super.key});
+  final String username;
+  final String email;
+  final int currentIndex;
+
+  const Articles({
+    Key? key,
+    required this.username,
+    required this.email,
+    this.currentIndex = 4,
+  }) : super(key: key);
 
   @override
   State<Articles> createState() => _ArticlesState();
 }
 
 class _ArticlesState extends State<Articles> {
+  late String username;
+  late String email;
+
+  @override
+  void initState() {
+    super.initState();
+    username = widget.username;
+    email = widget.email;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -637,7 +657,7 @@ class _ArticlesState extends State<Articles> {
                                       Align(
                                         alignment: Alignment.centerLeft,
                                         child: Image.asset(
-                                         "assets/images/article9.jpg",
+                                          "assets/images/article9.jpg",
                                           width: 400,
                                           height: 200,
                                           fit: BoxFit.cover,

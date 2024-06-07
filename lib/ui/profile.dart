@@ -69,92 +69,124 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 55, 114, 167),
-                borderRadius: BorderRadius.zero,
-              ),
-              child: const Column(
-                // crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      top: 70.0,
-                      bottom: 20.0,
-                    ),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Profile",
-                        style: TextStyle(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
+      body: Container(
+        width: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          color: Colors.blue.withOpacity(0.1),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 55, 114, 167),
+                  borderRadius: BorderRadius.zero,
+                ),
+                child: const Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                        top: 70.0,
+                        bottom: 20.0,
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Profile",
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.zero,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // user details
-                  const SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(10),
-                        // border: Border.all(color: Colors.blue, width: 1),
-                      ),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3.0),
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                  // left: 5.0,
-                                  // right: 15.0,
-                                  top: 10.0,
-                                  bottom: 12.0,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        if (isEditingUsername)
-                                          Expanded(
-                                            child: TextField(
-                                              controller: usernameController,
-                                              decoration: const InputDecoration(
-                                                labelText: 'Username',
-                                                border: OutlineInputBorder(),
+              Container(
+                decoration: const BoxDecoration(
+                  // color: Colors.blue.withOpacity(0.1),
+                  borderRadius: BorderRadius.zero,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // user details
+                    const SizedBox(height: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(10),
+                          // border: Border.all(color: Colors.blue, width: 1),
+                        ),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 3.0),
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                    // left: 5.0,
+                                    // right: 15.0,
+                                    top: 10.0,
+                                    bottom: 12.0,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          if (isEditingUsername)
+                                            Expanded(
+                                              child: TextField(
+                                                controller: usernameController,
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Username',
+                                                  border: OutlineInputBorder(),
+                                                ),
+                                              ),
+                                            )
+                                          else
+                                            Expanded(
+                                              child: Text(
+                                                "User Name: $username",
+                                                style: const TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color.fromARGB(
+                                                      255, 127, 171, 207),
+                                                ),
                                               ),
                                             ),
-                                          )
-                                        else
+                                          // const SizedBox(width: 5),
+                                          IconButton(
+                                            icon: const Icon(Icons.create,
+                                                color: Colors.black),
+                                            onPressed: () {
+                                              setState(() {
+                                                isEditingUsername = true;
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                      const SizedBox(height: 15),
+                                      Row(
+                                        children: [
                                           Expanded(
                                             child: Text(
-                                              "User Name: $username",
+                                              "Email: $email",
                                               style: const TextStyle(
                                                 fontSize: 16,
                                                 color: Color.fromARGB(
@@ -162,165 +194,104 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                           ),
-                                        // const SizedBox(width: 5),
-                                        IconButton(
-                                          icon: const Icon(Icons.create,
-                                              color: Colors.black),
-                                          onPressed: () {
-                                            setState(() {
-                                              isEditingUsername = true;
-                                            });
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            "Email: $email",
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromARGB(
-                                                  255, 127, 171, 207),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    // const SizedBox(height: 15),
-                                    // const Align(
-                                    //   alignment: Alignment.centerLeft,
-                                    //   child: Text(
-                                    //     "Password : ",
-                                    //     style: TextStyle(
-                                    //       fontSize: 18,
-                                    //       color: Color.fromARGB(
-                                    //           255, 127, 171, 207),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                  ],
+                                        ],
+                                      ),
+                                      // const SizedBox(height: 15),
+                                      // const Align(
+                                      //   alignment: Alignment.centerLeft,
+                                      //   child: Text(
+                                      //     "Password : ",
+                                      //     style: TextStyle(
+                                      //       fontSize: 18,
+                                      //       color: Color.fromARGB(
+                                      //           255, 127, 171, 207),
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 30),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.red,
-                        // border: Border.all(color: Colors.blue, width: 1),
-                        // color: Colors.lightBlueAccent,
-                      ),
-                      child: TextButton(
-                        onPressed: updateUserProfile,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 90.0),
-                          child: Text(
-                            "Save Changes",
-                            style: TextStyle(
-                              fontSize: 18,
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                    const SizedBox(height: 30),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: Colors.red,
+                          // border: Border.all(color: Colors.blue, width: 1),
+                          // color: Colors.lightBlueAccent,
+                        ),
+                        child: TextButton(
+                          onPressed: updateUserProfile,
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 90.0),
+                            child: Text(
+                              "Save Changes",
+                              style: TextStyle(
+                                fontSize: 18,
+                                // fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                  // 2nd half of the page
-                  const SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 5.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(10),
-                        // border: Border.all(color: Colors.blue, width: 1),
-                      ),
-                      child: Center(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3.0),
-                              child: Container(
-                                padding: const EdgeInsets.only(
-                                  // left: 5.0,
-                                  // right: 15.0,
-                                  top: 10.0,
-                                  bottom: 12.0,
-                                ),
-                                child: Column(
-                                  children: [
-                                    const Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        "Settings",
-                                        style: TextStyle(
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    Row(
-                                      children: [
-                                        const Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            "Notifications",
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Color.fromARGB(
-                                                  255, 127, 171, 207),
-                                            ),
+                    // 2nd half of the page
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8.0, vertical: 5.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white70,
+                          borderRadius: BorderRadius.circular(10),
+                          // border: Border.all(color: Colors.blue, width: 1),
+                        ),
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 3.0),
+                                child: Container(
+                                  padding: const EdgeInsets.only(
+                                    // left: 5.0,
+                                    // right: 15.0,
+                                    top: 10.0,
+                                    bottom: 12.0,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      const Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Settings",
+                                          style: TextStyle(
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.black,
                                           ),
                                         ),
-                                        const SizedBox(width: 141),
-                                        // the button
-                                        Switch(
-                                          value: isToggled,
-                                          onChanged: (value) {
-                                            setState(() {
-                                              isToggled = value;
-                                            });
-                                          },
-                                          activeColor: Colors.blue,
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 20),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Terms()),
-                                        );
-                                      },
-                                      child: const Row(
+                                      ),
+                                      const SizedBox(height: 20),
+                                      Row(
                                         children: [
-                                          Align(
+                                          const Align(
                                             alignment: Alignment.centerLeft,
                                             child: Text(
-                                              "Terms and Conditions ",
+                                              "Notifications",
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Color.fromARGB(
@@ -328,85 +299,122 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: 100),
-                                          Text(
-                                            ">",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromARGB(
-                                                  255, 78, 129, 155),
-                                            ),
+                                          const SizedBox(width: 141),
+                                          // the button
+                                          Switch(
+                                            value: isToggled,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                isToggled = value;
+                                              });
+                                            },
+                                            activeColor: Colors.blue,
                                           ),
                                         ],
                                       ),
-                                    ),
-                                    const SizedBox(height: 20),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const Privacy()),
-                                        );
-                                      },
-                                      child: const Row(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              "Privacy policy ",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color.fromARGB(
-                                                    255, 127, 171, 207),
+                                      const SizedBox(height: 20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Terms()),
+                                          );
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Terms and Conditions ",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color.fromARGB(
+                                                      255, 127, 171, 207),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(width: 166),
-                                          Text(
-                                            ">",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              color: Color.fromARGB(
-                                                  255, 78, 129, 155),
+                                            SizedBox(width: 100),
+                                            Text(
+                                              ">",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color.fromARGB(
+                                                    255, 78, 129, 155),
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 20),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Privacy()),
+                                          );
+                                        },
+                                        child: const Row(
+                                          children: [
+                                            Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: Text(
+                                                "Privacy policy ",
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Color.fromARGB(
+                                                      255, 127, 171, 207),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(width: 166),
+                                            Text(
+                                              ">",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color.fromARGB(
+                                                    255, 78, 129, 155),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 20),
-                  // log out button
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut().then((value) {
-                          print("Signed Out");
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Login()));
-                        });
-                      },
-                      child: const Text('Logout'),
+                    const SizedBox(height: 20),
+                    // log out button
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut().then((value) {
+                            print("Signed Out");
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const Login()));
+                          });
+                        },
+                        child: const Text('Logout'),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 80),
-                ],
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
-            ),
-            // const SizedBox(height: 80),
-          ],
+              // const SizedBox(height: 80),
+            ],
+          ),
         ),
       ),
     );

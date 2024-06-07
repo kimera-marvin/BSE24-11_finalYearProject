@@ -1,9 +1,10 @@
-// ignore_for_file: file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously
+// ignore_for_file: file_names, no_leading_underscores_for_local_identifiers, use_build_context_synchronously, sort_child_properties_last
 
 import 'dart:io';
 
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:final_app/ui/upload.dart';
+import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,12 +12,16 @@ class CustomCurvedNavigationBar extends StatelessWidget {
   final PageController pageController;
   final Function(int) onTap;
   final int currentIndex;
+  final String username;
+  final String email;
 
   const CustomCurvedNavigationBar({
     Key? key,
     required this.pageController,
     required this.onTap,
     required this.currentIndex,
+    required this.username,
+    required this.email,
   }) : super(key: key);
 
   @override
@@ -28,7 +33,13 @@ class CustomCurvedNavigationBar extends StatelessWidget {
       height: 65,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 400),
-      onTap: onTap,
+      onTap: (index) {
+        if (index == 2) {
+          showImagePickerOption(context);
+        } else {
+          onTap(index);
+        }
+      },
       index: currentIndex,
       items: <Widget>[
         const Icon(Icons.home_outlined),
@@ -134,7 +145,16 @@ class CustomCurvedNavigationBar extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Upload(image: _image),
+        builder: (context) => ScreenWithNavigationBar(
+          child: Upload(
+            image: _image,
+            username: username, // Pass username if available
+            email: email,
+          ),
+          currentIndex: 2,
+          username: username, // Pass username if available
+          email: email, // Pass email if available
+        ),
       ),
     );
   }
@@ -148,7 +168,16 @@ class CustomCurvedNavigationBar extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Upload(image: _image),
+        builder: (context) => ScreenWithNavigationBar(
+          child: Upload(
+            image: _image,
+            username: username, // Pass username if available
+            email: email,
+          ),
+          currentIndex: 2,
+          username: username, // Pass username if available
+          email: email, // Pass email if available
+        ),
       ),
     );
   }

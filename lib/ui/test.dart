@@ -50,9 +50,13 @@ class _TestState extends State<Test> {
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 55, 114, 167),
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
+        width: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
           color: Colors.blue.withOpacity(0.1),
+        ),
+        child: SingleChildScrollView(
           child: FutureBuilder<String>(
             future: _recordsFuture,
             builder: (context, snapshot) {

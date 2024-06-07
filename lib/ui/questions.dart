@@ -7,6 +7,7 @@ import 'package:final_app/ui/Qn6.dart';
 import 'package:final_app/ui/Qn7.dart';
 import 'package:final_app/ui/Qn8.dart';
 import 'package:final_app/ui/Qn9.dart';
+// import 'package:final_app/widgets/screen.dart';
 // import 'package:final_app/ui/articles.dart';
 // import 'package:final_app/ui/hPage.dart';
 // import 'package:final_app/ui/profile.dart';
@@ -16,7 +17,16 @@ import 'package:final_app/ui/Qn9.dart';
 import 'package:flutter/material.dart';
 
 class Questions extends StatefulWidget {
-  const Questions({super.key});
+  final String username;
+  final String email;
+  final int currentIndex;
+
+  const Questions({
+    Key? key,
+    required this.username,
+    required this.email,
+    this.currentIndex = 4,
+  }) : super(key: key);
 
   @override
   State<Questions> createState() => _QuestionsState();
@@ -24,17 +34,15 @@ class Questions extends StatefulWidget {
 
 class _QuestionsState extends State<Questions> {
   int pageIndex = 0;
-  // late PageController pageController = PageController();
+  late String username;
+  late String email;
 
-  // onPageChanged(int pageIndex) {
-  //   setState(() {
-  //     this.pageIndex = pageIndex;
-  //   });
-  // }
-
-  // onTap(int pageIndex) {
-  //   pageController.jumpToPage(pageIndex);
-  // }
+  @override
+  void initState() {
+    super.initState();
+    username = widget.username;
+    email = widget.email;
+  }
 
   @override
   Widget build(BuildContext context) {
