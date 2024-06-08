@@ -13,11 +13,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 import tensorflow as tf
+ 
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.models import load_model
 import logging
 _logger = logging.getLogger(__name__)
 import json
+import cv2
+from io import BytesIO
+from PIL import Image
+import requests
+
 
 
 
@@ -39,13 +45,14 @@ class PatientImages(models.Model):
         selection=[
             ("TB", "Active TB"),
             ("CPA", "CPA"),
-            ("Normal", "None"),
+            ("Normal", "Normal"),
             ("none", "None"),
         ],
        tracking=True,
        readonly=True,
     )
     xray_image = fields.Binary()
+    segmented_image = fields.Binary()
     user_email = fields.Char()
 
     @api.model
@@ -67,6 +74,7 @@ class PatientImages(models.Model):
         _logger.info("CALLED BY APP")
         _logger.info("")
         # return "CREATED YEYE"
+        
         result = {'result_predicted': new_creation.action_predict()}
 
         # Convert the dictionary to a JSON string
@@ -76,11 +84,22 @@ class PatientImages(models.Model):
     def action_predict(self):
         predicted_class = False
         if self.xray_image:
-            decoded_image = base64.b64decode(self.xray_image)
-            image_path =f'{os.path.dirname(__file__)}/tmp/uploaded_image.png'# Temporary file path
-            with open(image_path, 'wb') as f:
-                f.write(decoded_image)
-            predicted_class = self.predict_image_class(image_path)
+            image_bytes = base64.b64decode(self.xray_image)
+            result = self.get_result(image_bytes)
+            _logger.info("result")
+            _logger.info(result)
+            _logger.info("result")
+            if result.get('class_name') == 'normal':
+                predicted_class = 'Normal'
+            elif result.get('class_name') == 'tuberculosis':
+                if result.get('confidence')>60:
+                    predicted_class = 'TB'
+            else:
+                decoded_image = base64.b64decode(self.xray_image)
+                image_path =f'{os.path.dirname(__file__)}/tmp/uploaded_image.png'# Temporary file path
+                with open(image_path, 'wb') as f:
+                    f.write(decoded_image)
+                predicted_class = self.predict_image_class(image_path)
         if predicted_class:
             self.sudo().write({'result_predicted':predicted_class})
         return predicted_class
@@ -97,7 +116,7 @@ class PatientImages(models.Model):
     # Function to predict the class of the image with rejection option
     def predict_image_class(self,image_path, threshold=0.5):
         # Load the trained model (modify the path to your downloaded model)
-        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier_v_13.h5'
+        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier_v_15.h5'
         model = load_model(model_path)
 
 
@@ -112,7 +131,11 @@ class PatientImages(models.Model):
 
         # Display the uploaded image
         # display(Image(filename))
-
+        print('predictions')
+        print('predictions')
+        print(predictions)
+        print('predictions')
+        print('predictions')
         # Display predictions
         for i, prob in enumerate(predictions[0]):
             _logger.info("")
@@ -142,8 +165,105 @@ class PatientImages(models.Model):
         return predicted_class_label
 
 
+        
 
 
+
+    def process_image_segment(self):
+       
+        for i in range(0,10):
+            print(tf.__version__[0])
+        model_path = f'{os.path.dirname(__file__)}/trained_model/lung_seg_valiou_088.h5'
+        
+        model = load_model(model_path)
+        for i in range(0,10):
+            print("hwrew 1")
+        
+        for record in self:
+            if record.xray_image:
+                img_data = base64.b64decode(record.xray_image)
+                img_array = np.frombuffer(img_data, dtype=np.uint8)
+                img = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+                
+                width, height = img.shape[1], img.shape[0]
+                img_resized = cv2.resize(img, (256, 256))
+                img_resized = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB).astype(np.float32)
+                
+                mask = model.predict(np.expand_dims(img_resized, axis=0))
+                mask[mask < 0.5] = 0.0
+                mask[mask > 0.5] = 1.0
+                
+                img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                img_resized_gray = cv2.resize(img_gray, (256, 256))
+                masked_img = np.squeeze(img_resized_gray * mask.reshape(256, 256))
+                masked_img_resized = cv2.resize(masked_img, (width, height)).astype(np.int16)
+                
+                # Convert processed image to base64
+                _, buffer = cv2.imencode('.png', masked_img_resized)
+                processed_image_base64 = base64.b64encode(buffer).decode('utf-8')
+                
+                record.segmented_image = processed_image_base64
+
+
+
+    def check_image(self):
+        for record in self:
+            if record.xray_image:
+                image_data = base64.b64decode(record.xray_image)
+
+                segmented_image = self.segment_image(image_data)
+                record.segmented_image = segmented_image.encode('base64')
+
+    def segment_image(self, image_data):
+        # Load your pre-trained model
+        model_path = f'{os.path.dirname(__file__)}/trained_model/lung_seg_valiou_088.h5'
+        model = load_model(model_path)
+        # model = tf.keras.models.load_model('/path/to/your/model.h5')
+
+        # Decode the base64 image data
+        image_decoded = base64.b64decode(image_data)
+        image_np = np.frombuffer(image_decoded, np.uint8)
+        image_np = cv2.imdecode(image_np, cv2.IMREAD_GRAYSCALE)
+
+        # Save the decoded image to a temporary path for processing
+        temp_image_path = '/tmp/temp_image.png'
+        cv2.imwrite(temp_image_path, image_np)
+
+        # Segment the image
+        mask, masked_image, chest_image = SegmentImage(model, temp_image_path)
+
+        # Encode the segmented image to save it in Odoo
+        _, buffer = cv2.imencode('.png', masked_image)
+        segmented_image_encoded = base64.b64encode(buffer).decode('utf-8')
+
+        return segmented_image_encoded
+
+
+    def SegmentImage(model,path,img_shape = (512,512),threshold = 0.5):
+        '''
+        **********Input**************
+        model: segmentation model (h5)
+        path: filepath to image (string)
+        img_shape: shape of the image(IMG_WIDTH,IMG_HEIGHT) used in segmenation model
+        threshold: float value varing between 0 and 1, thresholding the mask
+        *********Output*************
+        return: Segment mask, segmented image, original image
+        '''
+        IMG_WIDTH,IMG_HEIGHT = img_shape
+        ori_x = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
+        ori_x = cv2.resize(ori_x, (IMG_HEIGHT,IMG_WIDTH))
+        x = ori_x/255.0
+        x = x.astype(np.float32)
+        x = np.expand_dims(x, axis=0)
+        y_pred = model.predict(x)[0] > threshold
+        y_pred = y_pred.astype(np.int32)
+        plt.imsave('mask.jpeg',np.squeeze(y_pred),cmap='gray')
+        maskapply = cv2.imread('mask.jpeg')
+        maskapply = cv2.cvtColor(maskapply, cv2.COLOR_BGR2GRAY)
+        chest_image = ori_x
+        chest_image = cv2.resize(chest_image, (IMG_HEIGHT, IMG_WIDTH),interpolation = cv2.INTER_NEAREST)
+        masked_image = cv2.bitwise_and(maskapply,chest_image)
+        return maskapply,masked_image,chest_image
 
 
 
