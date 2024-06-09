@@ -97,12 +97,13 @@ class PatientImages(models.Model):
             elif result.get('class_name') == 'tuberculosis':
                 if result.get('confidence')>60:
                     predicted_class = 'TB'
-            else:
-                decoded_image = base64.b64decode(self.xray_image)
-                image_path =f'{os.path.dirname(__file__)}/tmp/uploaded_image.png'# Temporary file path
-                with open(image_path, 'wb') as f:
-                    f.write(decoded_image)
-                predicted_class = self.predict_image_class(image_path)
+                else:
+                    predicted_class = 'CPA'
+                    # decoded_image = base64.b64decode(self.xray_image)
+                    # image_path =f'{os.path.dirname(__file__)}/tmp/uploaded_image.png'# Temporary file path
+                    # with open(image_path, 'wb') as f:
+                    #     f.write(decoded_image)
+                    # predicted_class = self.predict_image_class(image_path)
         if predicted_class:
             self.sudo().write({'result_predicted':predicted_class})
             self.get_pathogens()
@@ -123,7 +124,7 @@ class PatientImages(models.Model):
     # Function to predict the class of the image with rejection option
     def predict_image_class(self,image_path, threshold=0.5):
         # Load the trained model (modify the path to your downloaded model)
-        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier_v_15.h5'
+        model_path = f'{os.path.dirname(__file__)}/trained_model/first_draft_classifier_v_13.h5'
         model = load_model(model_path)
 
 
