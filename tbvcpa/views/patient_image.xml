@@ -22,7 +22,7 @@
                 <header>
                     <button name="action_predict" class="btn btn-success" string="PREDICT"
                         type="object" /> 
-                    <!-- <button name="call_fastapi_endpoint" class="btn btn-warning" string="SEGMENT"
+                    <!-- <button name="get_pathogens" class="btn btn-warning" string="GET PATHOGENS"
                         type="object" /> -->
                 </header>
                 <sheet>
@@ -36,6 +36,7 @@
                         </div>
                     </div>
                     <group>
+                        
                         <group>
                             <field name="age" />
                             <field name="gender" />
@@ -51,10 +52,14 @@
                         <page name="image" string="Image">
                             <field name="xray_image" widget="image" />
                         </page>
+                        <page name="identified_pathogens" string="Identified Pathogens">
+                            <field name="identified_pathogens" readonly="1"/>
+                        </page>
                         <!-- <page name="segmented_image" string="Segmented Image">
                             <field name="segmented_image" widget="image" />
                         </page> -->
                     </notebook>
+                    
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" />

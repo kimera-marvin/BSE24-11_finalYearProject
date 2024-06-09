@@ -53,6 +53,7 @@ class PatientImages(models.Model):
     xray_image = fields.Binary()
     segmented_image = fields.Binary()
     user_email = fields.Char()
+    identified_pathogens = fields.Text()
 
     @api.model
     def action_create_custom(self,vals):
@@ -74,7 +75,10 @@ class PatientImages(models.Model):
         _logger.info("")
         # return "CREATED YEYE"
         
-        result = {'result_predicted': new_creation.action_predict()}
+        result = {
+            'result_predicted': new_creation.action_predict(),
+            'identified_pathogens': new_creation.identified_pathogens,
+            }
 
         # Convert the dictionary to a JSON string
         result_json = json.dumps(result)
@@ -101,7 +105,11 @@ class PatientImages(models.Model):
                 predicted_class = self.predict_image_class(image_path)
         if predicted_class:
             self.sudo().write({'result_predicted':predicted_class})
+            self.get_pathogens()
         return predicted_class
+
+    def get_pathogens(self):
+        pass
 
 
     # Function to preprocess the uploaded image
