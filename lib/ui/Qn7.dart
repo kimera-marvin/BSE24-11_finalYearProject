@@ -31,11 +31,11 @@ class _Qn7State extends State<Qn7> {
                 color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: const Column(
+              child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 20.0,
                       right: 20.0,
                       top: 20.0,
@@ -43,7 +43,7 @@ class _Qn7State extends State<Qn7> {
                     ),
                     child: Column(
                       children: [
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             "How to improve the quality of the chest X-ray images?",
@@ -54,19 +54,33 @@ class _Qn7State extends State<Qn7> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Here are some strategies to enhance CXR image quality:\n"
-                          "1. Patient Positioning: Ensure proper patient positioning, including adequate inspiration, correct alignment, and optimal exposure. Instruct the patient to stand or sit upright with arms raised and hands resting on the image receptor to minimize superimposition of anatomical structures.\n"
-                          "2. Technical Factors: Adjust technical factors such as exposure parameters (kVp, mA, exposure time), grid usage, and collimation settings based on patient size, anatomy, and clinical indication. Use appropriate exposure techniques to achieve optimal image contrast and detail resolution.\n"
-                          "3. X-ray Beam Alignment: Position the X-ray tube and image receptor correctly to ensure accurate beam alignment and minimize geometric distortions. Center the X-ray beam to the midpoint of the chest at the level of the mid-clavicle.\n"
-                          "4. Grid Usage: Use a grid device when imaging thicker body parts or larger patients to reduce scatter radiation and improve image contrast. Ensure proper grid alignment and positioning to avoid grid cutoff artifacts.\n"
-                          "5. Exposure Technique: Employ appropriate exposure techniques, including manual exposure factors selection or automatic exposure control (AEC) systems, to optimize image quality while minimizing radiation dose. Adjust exposure parameters based on patient size, pathology, and imaging protocol.\n"
-                          "6. Image Processing: Apply image processing techniques such as contrast enhancement, edge enhancement, and noise reduction algorithms to improve image quality and visualization of anatomical structures. Use post-processing tools available on digital radiography systems to refine image appearance.\n"
-                          "7. Artifact Reduction: Identify and minimize imaging artifacts such as motion blur, grid lines, processing artifacts, and foreign objects that may degrade image quality. Address factors contributing to artifacts through proper technique optimization and patient instruction.\n"
-                          "8. Quality Assurance Program: Implement a comprehensive quality assurance program to monitor and maintain CXR image quality. Perform routine equipment calibration, quality control tests, and image evaluation to identify and address issues affecting image acquisition and interpretation.\n"
-                          "9. Radiographer Training: Provide ongoing training and education to radiographers on proper imaging techniques, positioning protocols, equipment operation, and image quality optimization strategies. Foster a culture of continuous improvement and adherence to best practices in radiography.\n"
-                          "10. Collaboration with Radiologists: Collaborate closely with radiologists and other healthcare professionals to optimize imaging protocols, interpret imaging findings, and provide feedback on image quality. Foster open communication and interdisciplinary teamwork to ensure high-quality patient care.\n",
+                        const SizedBox(height: 8),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "Here are some strategies to enhance CXR image quality:\n",
+                              ),
+                              TextSpan(
+                                text:
+                                    "1. Patient Positioning: Ensure proper patient\n  positioning, including adequate inspiration,\n  correct alignment, and optimal exposure.\n  Instruct the patient to stand or sit upright with\n  arms raised and hands resting on the image\n  receptor to minimize superimposition of\n  anatomical structures.\n\n"
+                                    "2. Technical Factors: Adjust technical factors\n  such as exposure parameters (kVp, mA,\n  exposure time), grid usage, and collimation\n  settings based on patient size, anatomy, and\n  clinical indication. Use appropriate exposure\n  techniques to achieve optimal image contrast\n  and detail resolution.\n\n"
+                                    "3. X-ray Beam Alignment: Position the X-ray\n  tube and image receptor correctly to ensure\n  accurate beam alignment and minimize\n  geometric distortions. Center the X-ray beam\n  to the midpoint of the chest at the level of the\n  mid-clavicle.\n\n"
+                                    "4. Grid Usage: Use a grid device when imaging\n  thicker body parts or larger patients to reduce\n  scatter radiation and improve image contrast.\n  Ensure proper grid alignment and positioning\n  to avoid grid cutoff artifacts.\n\n"
+                                    "5. Exposure Technique: Employ appropriate\n  exposure techniques, including manual\n  exposure factors selection or automatic\n  exposure control (AEC) systems, to optimize\n  image quality while minimizing radiation dose.\n  Adjust exposure parameters based on patient\n  size, pathology, and imaging protocol.\n\n"
+                                    "6. Image Processing: Apply image processing\n  techniques such as contrast enhancement,\n  edge enhancement, and noise reduction\n  algorithms to improve image quality and\n  visualization of anatomical structures. Use\n  post-processing tools available on digital\n  radiography systems to refine image\n  appearance.\n\n"
+                                    "7. Artifact Reduction: Identify and minimize\n  imaging artifacts such as motion blur, grid\n  lines, processing artifacts, and foreign objects\n  that may degrade image quality. Address\n  factors contributing to artifacts through proper\n  technique optimization and patient instruction.\n\n"
+                                    "8. Quality Assurance Program: Implement a\n  comprehensive quality assurance program to\n  monitor and maintain CXR image quality.\n  Perform routine equipment calibration, quality\n  control tests, and image evaluation to identify\n  and address issues affecting image\n  acquisition and interpretation.\n\n"
+                                    "9. Radiographer Training: Provide ongoing\n  training and education to radiographers on\n  proper imaging techniques, positioning\n  protocols, equipment operation, and image\n  quality optimization strategies. Foster a\n  culture of continuous improvement and\n  adherence to best practices in radiography.\n\n"
+                                    "10. Collaboration with Radiologists: Collaborate\n  closely with radiologists and other healthcare\n  professionals to optimize imaging protocols,\n  interpret imaging findings, and provide\n  feedback on image quality. Foster open\n  communication and interdisciplinary\n  teamwork to ensure high-quality patient care.\n",
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

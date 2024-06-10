@@ -31,11 +31,11 @@ class _Qn2State extends State<Qn2> {
                 color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(10.0),
               ),
-              child: const Column(
+              child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 20.0,
                       right: 20.0,
                       top: 20.0,
@@ -43,7 +43,7 @@ class _Qn2State extends State<Qn2> {
                     ),
                     child: Column(
                       children: [
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             "What are the advantages and disadvantages of chest X-ray for TB and CPA diagnosis?",
@@ -54,22 +54,45 @@ class _Qn2State extends State<Qn2> {
                             ),
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Text(
-                          "Here are the advantages and disadvantages of using chest X-ray for TB and CPA diagnosis:\n\n"
-                          "Advantages:\n"
-                          "1. Accessibility: CXR is widely available in most healthcare facilities, including resource-limited settings, making it accessible for screening and diagnosis.\n"
-                          "2. Non-invasive: It is a non-invasive procedure, which means it does not require any incisions or invasive methods, reducing patient discomfort\n"
-                          "3. Rapid results: CXR provides quick results, allowing for timely diagnosis and treatment initiation, particularly crucial for infectious diseases like TB.\n"
-                          "4. Detection of abnormalities: CXR can detect abnormalities in the lungs, such as infiltrates, cavitations, and consolidations, which are common features of both TB and CPA.\n"
-                          "5. Cost-effectiveness: Compared to other imaging modalities like computed tomography (CT), CXR is relatively cost-effective, making it suitable for screening and large-scale diagnostic purposes.\n\n"
-                          "Disadvantages:\n"
-                          "1. Limited sensitivity and specificity: CXR may lack sensitivity and specificity, especially in the early stages of TB and CPA, leading to false-negative or false-positive results.\n"
-                          "2. Subjectivity: Interpretation of CXR images is subjective and relies heavily on the expertise of the radiologist, which may vary and introduce variability in diagnosis.\n"
-                          "3. Overlap with other conditions: CXR findings associated with TB and CPA, such as infiltrates and cavitations, may also occur in other pulmonary conditions, leading to diagnostic ambiguity.\n"
-                          "4. Radiation exposure: Although the radiation dose from a single CXR is low, repeated exposure to radiation from serial CXRs or additional imaging studies may pose a risk, especially in vulnerable populations like children and pregnant women.\n"
-                          "5. Limited visualization: CXR provides a two-dimensional image of the chest, limiting the visualization of certain structures and potentially missing subtle abnormalities, particularly in early-stage disease.\n"
-                          "6. Follow-up challenges: CXR may not be suitable for monitoring disease progression or treatment response, as changes in the chest radiograph may be subtle or nonspecific, requiring additional imaging or clinical evaluation.\n",
+                        const SizedBox(height: 8),
+                        RichText(
+                          text: const TextSpan(
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.black,
+                            ),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "Here are the advantages and disadvantages of using chest X-ray for TB and CPA diagnosis:\n\n",
+                              ),
+                              TextSpan(
+                                text: "Advantages:\n",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text:
+                                    "1. Accessibility: CXR is widely available in most\n  healthcare facilities, including resource-limited\n  settings, making it accessible for screening\n  and diagnosis.\n"
+                                    "2. Non-invasive: It is a non-invasive procedure,\n  which means it does not require any incisions\n  or invasive methods, reducing patient\n  discomfort\n"
+                                    "3. Rapid results: CXR provides quick results,\n  allowing for timely diagnosis and treatment\n  initiation, particularly crucial for infectious\n  diseases like TB.\n"
+                                    "4. Detection of abnormalities: CXR can detect\n  abnormalities in the lungs, such as infiltrates,\n  cavitations, and consolidations, which are\n  common features of both TB and CPA.\n"
+                                    "5. Cost-effectiveness: Compared to other\n  imaging modalities like computed tomography\n  (CT), CXR is relatively cost-effective, making it\n  suitable for screening and large-scale\n  diagnostic purposes.\n\n",
+                              ),
+                              TextSpan(
+                                text: "Disadvantages:\n",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              TextSpan(
+                                text:
+                                    "1. Limited sensitivity and specificity: CXR may\n  lack sensitivity and specificity, especially in the\n  early stages of TB and CPA, leading to false-\n  negative or false-positive results.\n"
+                                    "2. Subjectivity: Interpretation of CXR images is\n  subjective and relies heavily on the expertise\n  of the radiologist, which may vary and\n  introduce variability in diagnosis.\n"
+                                    "3. Overlap with other conditions: CXR findings\n  associated with TB and CPA, such as infiltrates\n  and cavitations, may also occur in other\n  pulmonary conditions, leading to diagnostic\n  ambiguity.\n"
+                                    "4. Radiation exposure: Although the radiation\n  dose from a single CXR is low, repeated\n  exposure to radiation from serial CXRs or\n  additional imaging studies may pose a risk,\n  especially in vulnerable populations like\n  children and pregnant women.\n"
+                                    "5. Limited visualization: CXR provides a two-\n  dimensional image of the chest, limiting the\n  visualization of certain structures and\n  potentially missing subtle abnormalities,\n  particularly in early-stage disease.\n"
+                                    "6. Follow-up challenges: CXR may not be\n  suitable for monitoring disease progression or\n  treatment response, as changes in the chest\n  radiograph may be subtle or nonspecific,\n  requiring additional imaging or clinical\n  evaluation.\n",
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

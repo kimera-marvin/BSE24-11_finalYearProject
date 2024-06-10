@@ -28,7 +28,7 @@ class Test extends StatefulWidget {
 }
 
 class _TestState extends State<Test> {
-  late Future<String> _recordsFuture;
+  late Future<Map<String, String>> _recordsFuture;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _TestState extends State<Test> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Test",
+          "Results Screen",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -57,7 +57,7 @@ class _TestState extends State<Test> {
           color: Colors.blue.withOpacity(0.1),
         ),
         child: SingleChildScrollView(
-          child: FutureBuilder<String>(
+          child: FutureBuilder<Map<String, String>>(
             future: _recordsFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -65,6 +65,7 @@ class _TestState extends State<Test> {
               } else if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               } else if (snapshot.hasData) {
+                final data = snapshot.data!;
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -102,14 +103,26 @@ class _TestState extends State<Test> {
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text('Result: ${snapshot.data}',
-                            style: const TextStyle(
-                                fontSize: 24, fontWeight: FontWeight.bold)),
+                        Text(
+                          'Identified Pathogens: ${data['identified_pathogens']}',
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Result: ${data['result_predicted']}',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                         const SizedBox(height: 8),
                         const Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "You should consult a pulmonologist as soon as possible for confirmation and treatment.",
+                            "Advice: Seek medical attention and follow control measures.",
                             style: TextStyle(
                               color: Colors.black,
                             ),
@@ -131,8 +144,8 @@ class _TestState extends State<Test> {
   }
 }
 
-Future<String> getRecords(Uint8List? image, String name, int age, String gender,
-    String user_email) async {
+Future<Map<String, String>> getRecords(Uint8List? image, String name, int age,
+    String gender, String user_email) async {
   final client = OdooClient(DATABASE_URL);
 
   try {
@@ -162,10 +175,15 @@ Future<String> getRecords(Uint8List? image, String name, int age, String gender,
     // Ensure the response is a valid JSON string
     if (response != null && response is String) {
       final Map<String, dynamic> parsedResponse = jsonDecode(response);
-      if (parsedResponse.containsKey('result_predicted')) {
-        return parsedResponse['result_predicted'] as String;
+      if (parsedResponse.containsKey('result_predicted') &&
+          parsedResponse.containsKey('identified_pathogens')) {
+        return {
+          'result_predicted': parsedResponse['result_predicted'] as String,
+          'identified_pathogens':
+              parsedResponse['identified_pathogens'] as String,
+        };
       } else {
-        throw Exception('Key result_predicted not found');
+        throw Exception('Required keys not found in response');
       }
     } else {
       throw Exception('Invalid response format');
@@ -173,6 +191,9 @@ Future<String> getRecords(Uint8List? image, String name, int age, String gender,
   } catch (e, stack) {
     print('Exception: $e');
     print('Stack trace: $stack');
-    return 'Error: $e'; // Return the error to be displayed in the UI
+    return {
+      'result_predicted': 'Error: $e',
+      'identified_pathogens': 'Error: $e'
+    }; // Return the error to be displayed in the UI
   }
 }

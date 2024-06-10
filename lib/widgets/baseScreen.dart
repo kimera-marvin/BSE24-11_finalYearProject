@@ -90,42 +90,55 @@ class CustomCurvedNavigationBar extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 4.5,
-            child: Row(
+            child: Column(
               children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _pickImageFromGallery(context);
-                    },
-                    child: const SizedBox(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.image,
-                            size: 70,
+                Row(
+                  children: [
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          _pickImageFromGallery(context);
+                        },
+                        child: const SizedBox(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.image,
+                                size: 70,
+                              ),
+                              Text("Photo"),
+                            ],
                           ),
-                          Text("Photo"),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                    Expanded(
+                      child: InkWell(
+                        onTap: () {
+                          _pickImageFromCamera(context);
+                        },
+                        child: const SizedBox(
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.camera_alt,
+                                size: 70,
+                              ),
+                              Text("Camera"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      _pickImageFromCamera(context);
-                    },
-                    child: const SizedBox(
-                      child: Column(
-                        children: [
-                          Icon(
-                            Icons.camera_alt,
-                            size: 70,
-                          ),
-                          Text("Camera"),
-                        ],
-                      ),
-                    ),
+                const SizedBox(height: 15),
+                const Text(
+                  "Upload Chest X-Ray",
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
                 ),
               ],
