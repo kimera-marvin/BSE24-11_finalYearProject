@@ -95,10 +95,12 @@ class PatientImages(models.Model):
             if result.get('class_name') == 'normal':
                 predicted_class = 'Normal'
             elif result.get('class_name') == 'tuberculosis':
-                if result.get('confidence')>60:
-                    predicted_class = 'TB'
-                else:
+                result_cpa = self.get_result_cpa(image_bytes)
+                if result_cpa.get('class_name') == 'CPA':
                     predicted_class = 'CPA'
+                else:
+                    predicted_class = 'TB'
+                    
                     # decoded_image = base64.b64decode(self.xray_image)
                     # image_path =f'{os.path.dirname(__file__)}/tmp/uploaded_image.png'# Temporary file path
                     # with open(image_path, 'wb') as f:

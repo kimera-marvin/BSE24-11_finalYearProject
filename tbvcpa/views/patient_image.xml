@@ -22,7 +22,7 @@
                 <header>
                     <button name="action_predict" class="btn btn-success" string="PREDICT"
                         type="object" /> 
-                    <!-- <button name="get_pathogens" class="btn btn-warning" string="GET PATHOGENS"
+                    <!-- <button name="get_result_cpa_act" class="btn btn-warning" string="RESULT CPA"
                         type="object" /> -->
                 </header>
                 <sheet>
