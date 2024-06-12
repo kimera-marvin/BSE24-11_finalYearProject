@@ -1,8 +1,10 @@
-// ignore_for_file: non_constant_identifier_names, avoid_print
+// ignore_for_file: avoid_print, non_constant_identifier_names, sort_child_properties_last
 
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:final_app/ui/history.dart';
+import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:odoo_rpc/odoo_rpc.dart';
 import 'package:final_app/widgets/database_constants.dart';
@@ -13,6 +15,7 @@ class Test extends StatefulWidget {
   final int age;
   final String gender;
   final String user_email;
+  final int currentIndex;
 
   const Test({
     Key? key,
@@ -21,6 +24,7 @@ class Test extends StatefulWidget {
     required this.age,
     required this.gender,
     required this.user_email,
+    this.currentIndex = 3,
   }) : super(key: key);
 
   @override
@@ -29,6 +33,7 @@ class Test extends StatefulWidget {
 
 class _TestState extends State<Test> {
   late Future<Map<String, String>> _recordsFuture;
+  late String uname;
 
   @override
   void initState() {
@@ -49,96 +54,140 @@ class _TestState extends State<Test> {
         ),
         centerTitle: true,
         backgroundColor: const Color.fromARGB(255, 55, 114, 167),
+        leading: Container(),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.height,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
-        ),
-        child: SingleChildScrollView(
-          child: FutureBuilder<Map<String, String>>(
-            future: _recordsFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else if (snapshot.hasData) {
-                final data = snapshot.data!;
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        widget.image != null
-                            ? CircleAvatar(
-                                radius: 100,
-                                backgroundImage: MemoryImage(widget.image!),
-                              )
-                            : const CircleAvatar(
-                                radius: 100,
-                                backgroundImage:
-                                    AssetImage("assets/images/article1.png"),
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.1),
+            ),
+            child: SingleChildScrollView(
+              child: FutureBuilder<Map<String, String>>(
+                future: _recordsFuture,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (snapshot.hasData) {
+                    final data = snapshot.data!;
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            widget.image != null
+                                ? CircleAvatar(
+                                    radius: 100,
+                                    backgroundImage: MemoryImage(widget.image!),
+                                  )
+                                : const CircleAvatar(
+                                    radius: 100,
+                                    backgroundImage: AssetImage(
+                                        "assets/images/article1.png"),
+                                  ),
+                            const SizedBox(height: 16),
+                            Text('Name: ${widget.name}',
+                                style: const TextStyle(fontSize: 20)),
+                            const SizedBox(height: 8),
+                            Text('Age: ${widget.age}',
+                                style: const TextStyle(fontSize: 20)),
+                            const SizedBox(height: 8),
+                            Text('Gender: ${widget.gender}',
+                                style: const TextStyle(fontSize: 20)),
+                            const SizedBox(height: 16),
+                            const Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Further tests are recommended to confirm the diagnosis.",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                ),
                               ),
-                        const SizedBox(height: 16),
-                        Text('Name: ${widget.name}',
-                            style: const TextStyle(fontSize: 20)),
-                        const SizedBox(height: 8),
-                        Text('Age: ${widget.age}',
-                            style: const TextStyle(fontSize: 20)),
-                        const SizedBox(height: 8),
-                        Text('Gender: ${widget.gender}',
-                            style: const TextStyle(fontSize: 20)),
-                        const SizedBox(height: 16),
-                        const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "You should consult a pulmonologist as soon as possible for confirmation and treatment.",
-                            style: TextStyle(
-                              color: Colors.black,
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Identified Pathogens: ${data['identified_pathogens']}',
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.blue,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'Result: ${data['result_predicted']}',
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        const Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Advice: Seek medical attention and follow control measures.",
-                            style: TextStyle(
-                              color: Colors.black,
+                            const SizedBox(height: 8),
+                            const Text(
+                              "Identified Pathogens/Abnormalities: ",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue,
+                              ),
                             ),
-                          ),
+                            Text(
+                              '${data['identified_pathogens']}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Result: ${data['result_predicted']}',
+                              style: const TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 2.0),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Colors.blue,
+                                ),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ScreenWithNavigationBar(
+                                          child: History(
+                                            username: "",
+                                            userEmail: widget.user_email,
+                                          ),
+                                          currentIndex: 3,
+                                          username: "",
+                                          email: widget.user_email,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 90.0),
+                                    child: Text(
+                                     'View History',
+                                      style: TextStyle(
+                                        fontSize: 15,
+                                        // fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 150),
-                      ],
-                    ),
-                  ),
-                );
-              } else {
-                return const Center(child: Text('No data received'));
-              }
-            },
+                      ),
+                    );
+                  } else {
+                    return const Center(child: Text('No data received'));
+                  }
+                },
+              ),
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

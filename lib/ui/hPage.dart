@@ -13,6 +13,8 @@ import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:odoo_rpc/odoo_rpc.dart';
+import 'package:final_app/widgets/database_constants.dart';
 
 class HPage extends StatefulWidget {
   final String username;
@@ -36,6 +38,10 @@ class _HPageState extends State<HPage> {
   final CarouselController _carouselController = CarouselController();
   late String username;
   late String userEmail;
+  late Future<int> _totalCountFuture;
+  late Future<int> _totalTB;
+  late Future<int> _totalCPA;
+  late Future<int> _totalNo;
 
   @override
   void initState() {
@@ -49,6 +55,10 @@ class _HPageState extends State<HPage> {
     username = widget.username;
     userEmail = widget.userEmail;
     _startAutoSlide();
+    _totalCountFuture = fetchTotalCount(widget.userEmail);
+    _totalTB = fetchTB(widget.userEmail);
+    _totalCPA = fetchCPA(widget.userEmail);
+    _totalNo = fetchNo(widget.userEmail);
   }
 
   @override
@@ -453,19 +463,41 @@ class _HPageState extends State<HPage> {
                                         ),
                                       ),
                                       padding: EdgeInsets.all(35),
-                                      child: Text(
-                                        "0",
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                        ),
+                                      child: FutureBuilder<int>(
+                                        future: _totalCountFuture,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return SizedBox(
+                                              width: 10.0,
+                                              height: 10.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(Colors.blue),
+                                              ),
+                                            );
+                                          } else if (snapshot.hasError) {
+                                            return Text(
+                                                'Error: ${snapshot.error}');
+                                          } else if (!snapshot.hasData) {
+                                            return Text('No data available');
+                                          } else {
+                                            return Text(
+                                              '${snapshot.data}',
+                                              style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
                                     // ),
                                     SizedBox(width: 10),
                                     Column(
-                                      children: const [
+                                      children: [
                                         Row(
                                           children: [
                                             Text(
@@ -489,11 +521,39 @@ class _HPageState extends State<HPage> {
                                               ),
                                             ),
                                             SizedBox(width: 20),
-                                            Text(
-                                              "0",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            FutureBuilder<int>(
+                                              future: _totalNo,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return SizedBox(
+                                                    width: 10.0,
+                                                    height: 10.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors.blue),
+                                                    ),
+                                                  );
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                      'Error: ${snapshot.error}');
+                                                } else if (!snapshot.hasData) {
+                                                  return Text(
+                                                      'No data available');
+                                                } else {
+                                                  return Text(
+                                                    '${snapshot.data}',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ],
                                         ),
@@ -520,12 +580,40 @@ class _HPageState extends State<HPage> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(width: 77),
-                                            Text(
-                                              "0",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            SizedBox(width: 70),
+                                            FutureBuilder<int>(
+                                              future: _totalTB,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return SizedBox(
+                                                    width: 10.0,
+                                                    height: 10.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors.blue),
+                                                    ),
+                                                  );
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                      'Error: ${snapshot.error}');
+                                                } else if (!snapshot.hasData) {
+                                                  return Text(
+                                                      'No data available');
+                                                } else {
+                                                  return Text(
+                                                    '${snapshot.data}',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ],
                                         ),
@@ -552,12 +640,40 @@ class _HPageState extends State<HPage> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(width: 108),
-                                            Text(
-                                              "0",
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                            SizedBox(width: 98),
+                                            FutureBuilder<int>(
+                                              future: _totalCPA,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return SizedBox(
+                                                    width: 10.0,
+                                                    height: 10.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                                  Color>(
+                                                              Colors.blue),
+                                                    ),
+                                                  );
+                                                } else if (snapshot.hasError) {
+                                                  return Text(
+                                                      'Error: ${snapshot.error}');
+                                                } else if (!snapshot.hasData) {
+                                                  return Text(
+                                                      'No data available');
+                                                } else {
+                                                  return Text(
+                                                    '${snapshot.data}',
+                                                    style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  );
+                                                }
+                                              },
                                             ),
                                           ],
                                         ),
@@ -723,5 +839,139 @@ class _HPageState extends State<HPage> {
         ),
       ),
     );
+  }
+}
+
+Future<int> fetchTotalCount(String userEmail) async {
+  final client = OdooClient(DATABASE_URL);
+  await client.authenticate(
+      DATABASE_NAME, DATABASE_ACCESS_LOGIN, DATABASE_ACCESS_PASSWORD);
+
+  try {
+    var response = await client.callKw({
+      'model': 'patient.image',
+      'method': 'search_count',
+      'args': [
+        [
+          ['user_email', '=', userEmail]
+        ],
+      ],
+      'kwargs': {}
+    }).timeout(const Duration(seconds: 100));
+
+    if (response != null && response is int) {
+      return response;
+    } else {
+      throw Exception('Invalid response format');
+    }
+  } catch (e, stack) {
+    print('Exception: $e');
+    print('Stack trace: $stack');
+    return 0;
+  }
+}
+
+Future<int> fetchTB(String userEmail) async {
+  final client = OdooClient(DATABASE_URL);
+  await client.authenticate(
+      DATABASE_NAME, DATABASE_ACCESS_LOGIN, DATABASE_ACCESS_PASSWORD);
+
+  try {
+    var response = await client.callKw({
+      'model': 'patient.image',
+      'method': 'search_count',
+      'args': [
+        [
+          ['user_email', '=', userEmail],
+          [
+            'result_predicted',
+            '=',
+            'TB',
+          ],
+        ],
+      ],
+      'kwargs': {}
+    }).timeout(const Duration(seconds: 100));
+
+    if (response != null && response is int) {
+      return response;
+    } else {
+      throw Exception('Invalid response format');
+    }
+  } catch (e, stack) {
+    print('Exception: $e');
+    print('Stack trace: $stack');
+    return 0;
+  }
+}
+
+Future<int> fetchCPA(String userEmail) async {
+  final client = OdooClient(DATABASE_URL);
+  await client.authenticate(
+      DATABASE_NAME, DATABASE_ACCESS_LOGIN, DATABASE_ACCESS_PASSWORD);
+
+  try {
+    var response = await client.callKw({
+      'model': 'patient.image',
+      'method': 'search_count',
+      'args': [
+        [
+          ['user_email', '=', userEmail],
+          [
+            'result_predicted',
+            '=',
+            'CPA',
+          ],
+        ],
+      ],
+      'kwargs': {}
+    }).timeout(const Duration(seconds: 100));
+
+    if (response != null && response is int) {
+      return response;
+    } else {
+      throw Exception('Invalid response format');
+    }
+  } catch (e, stack) {
+    print('Exception: $e');
+    print('Stack trace: $stack');
+    return 0;
+  }
+}
+
+Future<int> fetchNo(String userEmail) async {
+  final client = OdooClient(DATABASE_URL);
+  await client.authenticate(
+      DATABASE_NAME, DATABASE_ACCESS_LOGIN, DATABASE_ACCESS_PASSWORD);
+
+  try {
+    var response = await client.callKw({
+      'model': 'patient.image',
+      'method': 'search_count',
+      'args': [
+        [
+          ['user_email', '=', userEmail],
+          [
+            'result_predicted',
+            'not in',
+            [
+              'CPA',
+              'TB',
+            ],
+          ],
+        ],
+      ],
+      'kwargs': {}
+    }).timeout(const Duration(seconds: 100));
+
+    if (response != null && response is int) {
+      return response;
+    } else {
+      throw Exception('Invalid response format');
+    }
+  } catch (e, stack) {
+    print('Exception: $e');
+    print('Stack trace: $stack');
+    return 0;
   }
 }

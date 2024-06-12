@@ -173,7 +173,10 @@ class _HomeState extends State<Home> {
                   HPage(username: username, userEmail: widget.email),
                   Profile(username: username, email: email),
                   Placeholder(),
-                  History(username: username, userEmail: widget.email),
+                  History(
+                    username: username,
+                    userEmail: widget.email,
+                  ),
                   Placeholder(),
                 ],
                 controller: pageController,

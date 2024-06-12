@@ -35,6 +35,21 @@ class _ProfileState extends State<Profile> {
     email = widget.email;
     usernameController.text = username;
     // emailController.text = email;
+    fetchUsername();
+  }
+
+  Future<void> fetchUsername() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      setState(() {
+        username = userDoc['username'];
+        usernameController.text = username;
+      });
+    }
   }
 
   Future<void> updateUserProfile() async {
@@ -196,18 +211,6 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       ),
-                                      // const SizedBox(height: 15),
-                                      // const Align(
-                                      //   alignment: Alignment.centerLeft,
-                                      //   child: Text(
-                                      //     "Password : ",
-                                      //     style: TextStyle(
-                                      //       fontSize: 18,
-                                      //       color: Color.fromARGB(
-                                      //           255, 127, 171, 207),
-                                      //     ),
-                                      //   ),
-                                      // ),
                                     ],
                                   ),
                                 ),
@@ -285,33 +288,33 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 20),
-                                      Row(
-                                        children: [
-                                          const Align(
-                                            alignment: Alignment.centerLeft,
-                                            child: Text(
-                                              "Notifications",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Color.fromARGB(
-                                                    255, 127, 171, 207),
-                                              ),
-                                            ),
-                                          ),
-                                          const SizedBox(width: 141),
-                                          // the button
-                                          Switch(
-                                            value: isToggled,
-                                            onChanged: (value) {
-                                              setState(() {
-                                                isToggled = value;
-                                              });
-                                            },
-                                            activeColor: Colors.blue,
-                                          ),
-                                        ],
-                                      ),
+                                      // const SizedBox(height: 20),
+                                      // Row(
+                                      //   children: [
+                                      //     const Align(
+                                      //       alignment: Alignment.centerLeft,
+                                      //       child: Text(
+                                      //         "Notifications",
+                                      //         style: TextStyle(
+                                      //           fontSize: 18,
+                                      //           color: Color.fromARGB(
+                                      //               255, 127, 171, 207),
+                                      //         ),
+                                      //       ),
+                                      //     ),
+                                      //     const SizedBox(width: 141),
+                                      //     // the button
+                                      //     Switch(
+                                      //       value: isToggled,
+                                      //       onChanged: (value) {
+                                      //         setState(() {
+                                      //           isToggled = value;
+                                      //         });
+                                      //       },
+                                      //       activeColor: Colors.blue,
+                                      //     ),
+                                      //   ],
+                                      // ),
                                       const SizedBox(height: 20),
                                       GestureDetector(
                                         onTap: () {
