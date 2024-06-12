@@ -112,7 +112,8 @@ class PatientImages(models.Model):
         if predicted_class:
             self.sudo().write({'result_predicted':predicted_class})
             self.get_pathogens()
-        return predicted_class
+        # return predicted_class
+        return self.result_predicted
 
     def get_pathogens(self):
         pass

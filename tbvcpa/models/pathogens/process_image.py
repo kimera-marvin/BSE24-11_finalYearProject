@@ -51,6 +51,12 @@ class PatientImagesInherit(models.Model):
         result = dict(zip(model.pathologies, outputs[0].detach().numpy()))
         pathogens = "\n".join([f"{pathogen}: {round(ratio*100,2)}%" for pathogen, ratio in result.items()])
         self.sudo().write({'identified_pathogens':pathogens})
+        if self.result_predicted == 'Normal' and result.get('Pleural_Thickening')>0.5:
+            image_bytes = base64.b64decode(self.xray_image)
+            result_cpa = self.get_result_cpa(image_bytes)
+            if result_cpa.get('class_name') == 'CPA':
+                self.result_predicted =  'CPA'
+            
         print("")
         print("")
         print("")
