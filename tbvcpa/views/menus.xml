@@ -2,7 +2,7 @@
 <odoo>
     <menuitem
         id="menu_tbvcpa_root" action="action_patient_image"
-        name="TBvCPA" sequence="-1" />
+        name="TBvCPA" sequence="-1" web_icon="tbvcpa,static/img/tbvcpa.svg" />
     <menuitem
         id="menu_tbvcpa_one" action="action_patient_image"
         name="Uploaded Images" sequence="1" parent="menu_tbvcpa_root" />
