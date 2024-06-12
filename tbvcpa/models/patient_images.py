@@ -89,13 +89,16 @@ class PatientImages(models.Model):
         if self.xray_image:
             image_bytes = base64.b64decode(self.xray_image)
             result = self.get_result(image_bytes)
-            _logger.info("result")
+            _logger.info("result from TUBERMODEL")
             _logger.info(result)
-            _logger.info("result")
+            _logger.info("result from TUBERMODEL")
             if result.get('class_name') == 'normal':
                 predicted_class = 'Normal'
             elif result.get('class_name') == 'tuberculosis':
                 result_cpa = self.get_result_cpa(image_bytes)
+                _logger.info("result from ASPERMODEL")
+                _logger.info(result_cpa)
+                _logger.info("result from ASPERMODEL")
                 if result_cpa.get('class_name') == 'CPA':
                     predicted_class = 'CPA'
                 else:
