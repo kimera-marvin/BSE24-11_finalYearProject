@@ -94,7 +94,7 @@ class PatientImages(models.Model):
             _logger.info("result from TUBERMODEL")
             if result.get('class_name') == 'normal':
                 predicted_class = 'Normal'
-            elif result.get('class_name') == 'tuberculosis':
+            elif result.get('class_name') == 'tuberculosis' and result.get('confidence') != 100:
                 result_cpa = self.get_result_cpa(image_bytes)
                 _logger.info("result from ASPERMODEL")
                 _logger.info(result_cpa)
