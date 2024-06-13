@@ -43,6 +43,7 @@
                         </group>
                         <group>
                             <field name="result_predicted" />
+                            <field name="confidence_score" />
                             <field name="user_email" readonly="1"/>
                         </group>
                     </group>
@@ -82,6 +83,7 @@
                 <field name="age" />
                 <field name="gender" />
                 <field name="result_predicted" />
+                <field name="confidence_score"/>
             </tree>
         </field>
     </record>
@@ -97,6 +99,7 @@
                 <field name="age" />
                 <field name="gender" />
                 <field name="result_predicted" />
+                <field name="confidence_score" />
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_record_has_image_fill">
@@ -126,6 +129,10 @@
                                                 decoration-info="result_predicted=='TB'"
                                                 decoration-primary="result_predicted=='CPA'" />
 
+                                        </li>
+                                        <li>
+                                            <strong>Confidence Score: </strong>
+                                            <field name="confidence_score" />
                                         </li>
                                     </ul>
                                 </div>

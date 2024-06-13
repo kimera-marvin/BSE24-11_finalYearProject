@@ -54,6 +54,7 @@ class PatientImages(models.Model):
     segmented_image = fields.Binary()
     user_email = fields.Char()
     identified_pathogens = fields.Text()
+    confidence_score = fields.Float()
 
     @api.model
     def action_create_custom(self,vals):
@@ -86,14 +87,17 @@ class PatientImages(models.Model):
 
     def action_predict(self):
         predicted_class = False
+        predicted_score = False
         if self.xray_image:
             image_bytes = base64.b64decode(self.xray_image)
             result = self.get_result(image_bytes)
             _logger.info("result from TUBERMODEL")
             _logger.info(result)
             _logger.info("result from TUBERMODEL")
+            predicted_score = result.get('confidence')
             if result.get('class_name') == 'normal':
                 predicted_class = 'Normal'
+                
             elif result.get('class_name') == 'tuberculosis' and result.get('confidence') != 100:
                 result_cpa = self.get_result_cpa(image_bytes)
                 _logger.info("result from ASPERMODEL")
@@ -101,6 +105,7 @@ class PatientImages(models.Model):
                 _logger.info("result from ASPERMODEL")
                 if result_cpa.get('class_name') == 'CPA':
                     predicted_class = 'CPA'
+                    predicted_score = result_cpa.get('confidence')
                 else:
                     predicted_class = 'TB'
                     
@@ -110,7 +115,10 @@ class PatientImages(models.Model):
                     #     f.write(decoded_image)
                     # predicted_class = self.predict_image_class(image_path)
         if predicted_class:
-            self.sudo().write({'result_predicted':predicted_class})
+            self.sudo().write({
+                'result_predicted':predicted_class,
+                'confidence_score':predicted_score,
+                })
             self.get_pathogens()
         # return predicted_class
         return self.result_predicted

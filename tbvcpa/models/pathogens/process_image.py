@@ -56,6 +56,7 @@ class PatientImagesInherit(models.Model):
             result_cpa = self.get_result_cpa(image_bytes)
             if result_cpa.get('class_name') == 'CPA':
                 self.result_predicted =  'CPA'
+                self.confidence_score = result_cpa.get('confidence')
             
         print("")
         print("")
