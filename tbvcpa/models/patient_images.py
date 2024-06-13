@@ -79,6 +79,7 @@ class PatientImages(models.Model):
         result = {
             'result_predicted': new_creation.action_predict(),
             'identified_pathogens': new_creation.identified_pathogens,
+            'confidence_score': new_creation.confidence_score,
             }
 
         # Convert the dictionary to a JSON string
