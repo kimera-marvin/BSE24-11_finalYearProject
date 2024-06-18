@@ -82,9 +82,9 @@
 
     <!--===============Location
     SEARCH===================-->
-    <record id="region_search" model="ir.ui.view">
+    <record id="location_search" model="ir.ui.view">
         <field name="name">region.search</field>
-        <field name="model">region</field>
+        <field name="model">location</field>
         <field name="arch" type="xml">
             <search string="Locations">
                 <field name="name" />
@@ -96,9 +96,9 @@
 
     <!--===============
     Location FORM VIEW===================-->
-    <record id="region_form" model="ir.ui.view">
+    <record id="location_form" model="ir.ui.view">
         <field name="name">region.form</field>
-        <field name="model">region</field>
+        <field name="model">location</field>
         <field name="arch" type="xml">
             <form string="Locations">
                 <sheet>
@@ -114,8 +114,9 @@
 
                     <group>
                         <group>
+                            <field name="region_id" />
+
                             <!-- <field name="name" placeholder="Name" /> -->
-<field name="region_id" />
                         </group>
                         <group>
                             <field name="description"
