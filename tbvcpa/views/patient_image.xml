@@ -92,7 +92,7 @@
         <field name="arch" type="xml">
             <tree string="Images">
 <header>
-    <button name="action_predict_bulk" type="object" string="Bulk Predict"/>
+                    <button name="action_predict_bulk" type="object" string="Bulk Predict" />
 </header>
                 <field name="name" />
                 <field name="age" />
@@ -167,6 +167,21 @@
             <graph string="Patients" sample="1">
                 <field name="result_predicted" />
 
+            </graph>
+        </field>
+    </record>
+
+    <!-- Pivot -->
+    <record id="view_patients_pivot" model="ir.ui.view">
+        <field name="name">patient.image.pivot</field>
+        <field name="model">patient.image</field>
+
+        <field name="arch" type="xml">
+            <graph string="Patients" sample="1">
+                <field name="create_date" type="col"/>
+<field name="result_predicted" type="col" />
+<field name="confidence_score" type="measure" />
+<field name="age" type="measure" />
             </graph>
         </field>
     </record>
