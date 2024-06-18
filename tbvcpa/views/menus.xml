@@ -6,5 +6,21 @@
     <menuitem
         id="menu_tbvcpa_one" action="action_patient_image"
         name="Uploaded Images" sequence="1" parent="menu_tbvcpa_root" />
+    <menuitem
+        id="menu_tbvcpa_two" 
+        name="Locations" sequence="2" parent="menu_tbvcpa_root" />
+    <!-- LOCATIONS -->
+    <menuitem
+        id="menu_locations" name="Locations"
+        action="location_action"
+        parent='menu_tbvcpa_two'
+        sequence="3"
+    />
+    <menuitem
+        id="menu_regions" name="Regions"
+        action="region_action"
+        parent='menu_tbvcpa_two'
+        sequence="3"
+    />
 
 </odoo>

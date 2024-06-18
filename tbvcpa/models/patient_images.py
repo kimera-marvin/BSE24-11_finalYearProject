@@ -55,6 +55,8 @@ class PatientImages(models.Model):
     user_email = fields.Char()
     identified_pathogens = fields.Text()
     confidence_score = fields.Float()
+    district_id = fields.Many2one('district')
+    region_id = fields.Many2one('region')
 
     @api.model
     def action_create_custom(self,vals):
@@ -70,6 +72,27 @@ class PatientImages(models.Model):
             'xray_image':vals.get('xray_image'),
             'user_email':vals.get('user_email'),
         })
+        if vals.get('region'):
+            find_region = self.env['region'].sudo().search([('name','=',vals.get('region'))])
+            if not find_region:
+                find_region = self.env['region'].sudo().create({
+                    'name':vals.get('region'),
+                })
+            new_creation.sudo().write({
+                'region_id':find_region.id,
+            })
+        if vals.get('district'):
+            find_district = self.env['district'].sudo().search([('name','=',vals.get('district'))])
+            if not find_district:
+                find_district = self.env['district'].sudo().create({
+                    'name':vals.get('district'),
+                    'region_id':find_region.id,
+                })
+                new_creation.sudo().write({
+                    'district_id':find_district.id,
+                })
+
+
         _logger.info("")
         _logger.info("CALLED BY APP")
         _logger.info("CALLED BY APP")

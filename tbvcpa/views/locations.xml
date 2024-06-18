@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--===============Location
+    SEARCH===================-->
+    <record id="region_search" model="ir.ui.view">
+        <field name="name">region.search</field>
+        <field name="model">region</field>
+        <field name="arch" type="xml">
+            <search string="Regions">
+                <field name="name" />
+
+
+            </search>
+        </field>
+    </record>
+
+    <!--===============
+    Location FORM VIEW===================-->
+    <record id="region_form" model="ir.ui.view">
+        <field name="name">region.form</field>
+        <field name="model">region</field>
+        <field name="arch" type="xml">
+            <form string="Regions">
+                <sheet>
+                    <div name="button_box" class="oe_button_box" position="inside">
+                    </div>
+                    <div class="oe_title pe-0">
+                        <!-- <label for="name" class="oe_edit_only"/> -->
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <field name="name" options="{'line_breaks': False}" widget="text" />
+                        </h1>
+                    </div>
+
+
+                    <group>
+                       
+                        <group>
+                            <field name="description"
+                                placeholder="Provide a brief description of the Location" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--===============
+    Location TREE VIEW===================-->
+    <record id="region_tree" model="ir.ui.view">
+        <field name="name">region.tree</field>
+        <field name="model">region</field>
+        <field name="arch" type="xml">
+            <tree string="Regions">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <!--===========================
+    Location ACTION WINDOW========================-->
+    <record id="region_action" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">region</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="view_id" ref="region_tree" />
+        <field name="search_view_id" ref="region_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Region
+            </p>
+        </field>
+    </record>
+
+    <!-- LOCATIONS -->
+
+
+    <!--===============Location
+    SEARCH===================-->
+    <record id="region_search" model="ir.ui.view">
+        <field name="name">region.search</field>
+        <field name="model">region</field>
+        <field name="arch" type="xml">
+            <search string="Locations">
+                <field name="name" />
+
+
+            </search>
+        </field>
+    </record>
+
+    <!--===============
+    Location FORM VIEW===================-->
+    <record id="region_form" model="ir.ui.view">
+        <field name="name">region.form</field>
+        <field name="model">region</field>
+        <field name="arch" type="xml">
+            <form string="Locations">
+                <sheet>
+                    <div name="button_box" class="oe_button_box" position="inside">
+                    </div>
+                    <div class="oe_title pe-0">
+                        <!-- <label for="name" class="oe_edit_only"/> -->
+                        <h1 class="d-flex justify-content-between align-items-center">
+                            <field name="name" options="{'line_breaks': False}" widget="text" />
+                        </h1>
+                    </div>
+
+
+                    <group>
+                        <group>
+                            <!-- <field name="name" placeholder="Name" /> -->
+                            <field name="region_id"></field>
+
+                        </group>
+                        <group>
+                            <field name="description"
+                                placeholder="Provide a brief description of the Location" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--===============
+    Location TREE VIEW===================-->
+    <record id="location_tree" model="ir.ui.view">
+        <field name="name">location.tree</field>
+        <field name="model">location</field>
+        <field name="arch" type="xml">
+            <tree string="Locations">
+                <field name="name" />
+                <field name="region_id" />
+            </tree>
+        </field>
+    </record>
+
+    <!--===========================
+    Location ACTION WINDOW========================-->
+    <record id="location_action" model="ir.actions.act_window">
+        <field name="name">Locations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">location</field>
+        <field name="view_mode">tree,form,search</field>
+        <field name="view_id" ref="location_tree" />
+        <field name="search_view_id" ref="location_search" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Location
+            </p>
+        </field>
+    </record>
+
+
+</odoo>
