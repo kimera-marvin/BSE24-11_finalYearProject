@@ -190,7 +190,7 @@
         <field name="name">Uploaded Images</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">patient.image</field>
-        <field name="view_mode">kanban,tree,graph,form,search</field>
+        <field name="view_mode">kanban,tree,graph,pivot,form,search</field>
         <field name="view_id" ref="tbvcpa.view_patient_image_kanban" />
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
