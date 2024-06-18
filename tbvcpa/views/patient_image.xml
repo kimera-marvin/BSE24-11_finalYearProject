@@ -91,7 +91,9 @@
         <field eval="8" name="priority" />
         <field name="arch" type="xml">
             <tree string="Images">
-
+<header>
+    <button name="action_predict_bulk" type="object" string="Bulk Predict"/>
+</header>
                 <field name="name" />
                 <field name="age" />
                 <field name="gender" />

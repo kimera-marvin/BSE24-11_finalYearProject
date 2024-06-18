@@ -109,6 +109,10 @@ class PatientImages(models.Model):
         result_json = json.dumps(result)
         return result_json
 
+    def action_predict_bulk(self):
+        for rec in self:
+            rec.action_predict()
+
     def action_predict(self):
         predicted_class = False
         predicted_score = False
