@@ -11,8 +11,8 @@
         name="Locations" sequence="2" parent="menu_tbvcpa_root" />
     <!-- LOCATIONS -->
     <menuitem
-        id="menu_locations" name="Locations"
-        action="location_action"
+        id="menu_districts" name="Locations"
+        action="district_action"
         parent='menu_tbvcpa_two'
         sequence="3"
     />
