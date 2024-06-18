@@ -35,7 +35,7 @@
         
         #--------views--------#
         'views/patient_image.xml',
-        'views/locations.xml','
+        'views/locations.xml',
         'views/menus.xml',
         
         
