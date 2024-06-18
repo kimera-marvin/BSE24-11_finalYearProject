@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_patient_image,access_patient_image,model_patient_image,,1,1,1,0
+access_district,access_district,model_district,,1,1,1,0
+access_region,access_region,model_region,,1,1,1,0
+
