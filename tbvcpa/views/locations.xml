@@ -64,7 +64,7 @@
     <!--===========================
     Location ACTION WINDOW========================-->
     <record id="region_action" model="ir.actions.act_window">
-        <field name="name">Locations</field>
+        <field name="name">Districts</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">region</field>
         <field name="view_mode">tree,form,search</field>
@@ -86,7 +86,7 @@
         <field name="name">region.search</field>
         <field name="model">district</field>
         <field name="arch" type="xml">
-            <search string="Locations">
+            <search string="Districts">
                 <field name="name" />
 
 
@@ -100,7 +100,7 @@
         <field name="name">region.form</field>
         <field name="model">district</field>
         <field name="arch" type="xml">
-            <form string="Locations">
+            <form string="Districts">
                 <sheet>
                     <div name="button_box" class="oe_button_box" position="inside">
                     </div>
@@ -139,7 +139,7 @@
         <field name="name">district.tree</field>
         <field name="model">district</field>
         <field name="arch" type="xml">
-            <tree string="Locations">
+            <tree string="Districts">
                 <field name="name" />
                 <field name="region_id" />
             </tree>
@@ -149,7 +149,7 @@
     <!--===========================
     Location ACTION WINDOW========================-->
     <record id="district_action" model="ir.actions.act_window">
-        <field name="name">Locations</field>
+        <field name="name">Districts</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">district</field>
         <field name="view_mode">tree,form,search</field>
