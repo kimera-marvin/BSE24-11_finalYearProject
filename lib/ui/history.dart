@@ -1,21 +1,25 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unnecessary_brace_in_string_interps
 
-import 'dart:convert';
-
-// import 'package:final_app/widgets/screen.dart';
 import 'package:flutter/material.dart';
-import 'package:odoo_rpc/odoo_rpc.dart';
-import 'package:final_app/widgets/database_constants.dart';
+import 'package:final_app/widgets/weather_service.dart';
 
 class History extends StatefulWidget {
   final String username;
   final String userEmail;
   final int currentIndex;
+  final String phone;
+  final String region;
+  final String district;
+  final String village;
 
   const History({
     Key? key,
     required this.username,
     required this.userEmail,
+    required this.phone,
+    required this.region,
+    required this.district,
+    required this.village,
     this.currentIndex = 3,
   }) : super(key: key);
 
@@ -24,146 +28,203 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  late Future<List<Map<String, dynamic>>> _historyDataFuture;
-  // late String username;
-  // late String email;
+  late String phone;
+  late String region;
+  late String district;
+  late String village;
+
+  Map<String, dynamic>? weatherData;
 
   @override
   void initState() {
     super.initState();
-    _historyDataFuture = fetchHistoryData(widget.userEmail);
-    // username = widget.username;
-    // email = widget.userEmail;
+
+    phone = widget.phone;
+    region = widget.region;
+    district = widget.district;
+    village = widget.village;
+
+    _fetchWeather();
+  }
+
+  Future<void> _fetchWeather() async {
+    try {
+      WeatherService weatherService = WeatherService();
+      var data = await weatherService.fetchWeather(region);
+      setState(() {
+        weatherData = data;
+      });
+    } catch (e) {
+      print('Error fetching weather: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: MediaQuery.of(context).size.height,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.1),
-        ),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 55, 114, 167),
-                  borderRadius: BorderRadius.zero,
-                ),
-                child: const Column(
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: 20.0,
-                        right: 20.0,
-                        top: 70.0,
-                        bottom: 20.0,
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "History",
-                          style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+      body: weatherData == null
+          ? const Center(child: CircularProgressIndicator())
+          : Stack(
+              children: [
+                // Background Image based on weather condition
+                Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(getBackgroundImage()),
+                      fit: BoxFit.cover,
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  // color: Colors.blue.withOpacity(0.1),
-                  borderRadius: BorderRadius.zero,
-                ),
-                child: FutureBuilder<List<Map<String, dynamic>>>(
-                  future: _historyDataFuture,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                      return const Center(child: Text('No history found.'));
-                    } else {
-                      var historyData = snapshot.data!;
-                      return ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: historyData.length,
-                        itemBuilder: (context, index) {
-                          var record = historyData[index];
-                          var imageBytes = base64Decode(record['xray_image']);
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: MemoryImage(imageBytes),
-                                ),
-                                title: Text(record['name']),
-                                subtitle: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Age: ${record['age']}'),
-                                    Text('Gender: ${record['gender']}'),
-                                    Text(
-                                        'Results: ${record['result_predicted']}'),
-                                  ],
-                                ),
+                // Weather details over the background image
+                SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                        const SizedBox(height: 30),
+                      // City Name and Date
+                      Padding(
+                        padding: const EdgeInsets.only(top: 60.0),
+                        child: Column(
+                          children: [
+                            Text(
+                              '${region}, ${district}',
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
-                          );
-                        },
-                      );
-                    }
-                  },
+                            const SizedBox(height: 5),
+                            Text(
+                              getCurrentDate(),
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white70,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      // Main Weather Icon and Temperature
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            'https:${weatherData!['current']['condition']['icon']}',
+                            width: 100,
+                            height: 100,
+                          ),
+                          const SizedBox(width: 20),
+                          Text(
+                            '${weatherData!['current']['temp_c']} °C',
+                            style: const TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      // Weather Condition
+                      Text(
+                        weatherData!['current']['condition']['text'],
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      // Additional Weather Information
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            WeatherInfoBox(
+                              icon: Icons.water_drop_outlined,
+                              label: 'Humidity',
+                              value: '${weatherData!['current']['humidity']}%',
+                            ),
+                            WeatherInfoBox(
+                              icon: Icons.air_outlined,
+                              label: 'Wind Speed',
+                              value:
+                                  '${weatherData!['current']['wind_kph']} km/h',
+                            ),
+                            WeatherInfoBox(
+                              icon: Icons.visibility_outlined,
+                              label: 'Visibility',
+                              value: '${weatherData!['current']['vis_km']} km',
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
+    );
+  }
+
+  String getBackgroundImage() {
+    String condition =
+        weatherData!['current']['condition']['text'].toLowerCase();
+    if (condition.contains('rain')) {
+      return 'assets/images/rain.jpeg';
+    } else if (condition.contains('cloud')) {
+      return 'assets/images/cloudy.jpeg';
+    } else if (condition.contains('clear')) {
+      return 'assets/images/clear_sky.jpeg';
+    } else {
+      return 'assets/images/default.jpeg';
+    }
+  }
+
+  String getCurrentDate() {
+    var now = DateTime.now();
+    return '${now.day}/${now.month}/${now.year}';
+  }
+}
+
+class WeatherInfoBox extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final String value;
+
+  const WeatherInfoBox({
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Icon(icon, color: Colors.white, size: 30),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
           ),
         ),
-      ),
+        const SizedBox(height: 5),
+        Text(
+          value,
+          style: const TextStyle(
+            fontSize: 18,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ],
     );
   }
 }
-
-Future<List<Map<String, dynamic>>> fetchHistoryData(String userEmail) async {
-  final client = OdooClient(DATABASE_URL);
-  await client.authenticate(
-      DATABASE_NAME, DATABASE_ACCESS_LOGIN, DATABASE_ACCESS_PASSWORD);
-
-  try {
-    var response = await client.callKw({
-      'model': 'patient.image',
-      'method': 'search_read',
-      'args': [
-        [
-          ['user_email', '=', userEmail]
-        ],
-        ['name', 'age', 'gender', 'xray_image', "result_predicted"]
-      ],
-      'kwargs': {}
-    }).timeout(const Duration(seconds: 100));
-
-    if (response != null && response is List) {
-      return response.cast<Map<String, dynamic>>();
-    } else {
-      throw Exception('Invalid response format');
-    }
-  } catch (e, stack) {
-    print('Exception: $e');
-    print('Stack trace: $stack');
-    return [];
-  }
-}
-
-

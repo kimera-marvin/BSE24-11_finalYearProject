@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
           gradient: LinearGradient(
             colors: [
               Colors.white,
-              Colors.blue,
+              Colors.brown,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                 20, MediaQuery.of(context).size.height * 0.1, 20, 0),
             child: Column(
               children: <Widget>[
-                logoWidget("assets/images/OIP.jpg"),
+                logoWidget("assets/images/best-pecan-coffee.jpg"),
                 const SizedBox(
                   height: 30,
                 ),
@@ -95,13 +95,23 @@ class _LoginState extends State<Login> {
                     if (userDoc.exists) {
                       var userData = userDoc.data();
                       String username = userData!['username'];
+                      String phone = userData['phone'];
                       String email = userData['email'];
+                      String region = userData['region'];
+                      String district = userData['district'];
+                      String village = userData['village'];
 
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              Home(username: username, email: email),
+                          builder: (context) => Home(
+                            username: username,
+                            email: email,
+                            phone: phone,
+                            region: region,
+                            district: district,
+                            village: village,
+                          ),
                         ),
                       );
                     } else {

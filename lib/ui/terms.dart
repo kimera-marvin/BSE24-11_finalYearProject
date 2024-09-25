@@ -1,13 +1,48 @@
 import 'package:flutter/material.dart';
 
 class Terms extends StatefulWidget {
-  const Terms({super.key});
+  final String username;
+  final String email;
+  final String phone;
+  final String region;
+  final String district;
+  final String village;
+  final int currentIndex;
+
+  const Terms({
+    Key? key,
+    required this.username,
+    required this.email,
+    required this.phone,
+    required this.region,
+    required this.district,
+    required this.village,
+    this.currentIndex = 4,
+  }) : super(key: key);
 
   @override
   State<Terms> createState() => _TermsState();
 }
 
 class _TermsState extends State<Terms> {
+  late String username;
+  late String email;
+  late String phone;
+  late String region;
+  late String district;
+  late String village;
+
+  @override
+  void initState() {
+    super.initState();
+    username = widget.username;
+    email = widget.email;
+    phone = widget.phone;
+    region = widget.region;
+    district = widget.district;
+    village = widget.village;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,140 +54,152 @@ class _TermsState extends State<Terms> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromARGB(255, 55, 114, 167),
+        backgroundColor: Colors.brown,
+        leading: Container(),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20.0,
-                      right: 20.0,
-                      top: 20.0,
-                      bottom: 20.0,
-                    ),
-                    child: Column(
-                      children: [
-                        const Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            "Terms and Conditions for the Digital Chest X-ray Diagnostic App",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
+      body: Container(
+        width: MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          color: Colors.brown.withOpacity(0.1),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  // color: Colors.brown.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20.0,
+                        right: 20.0,
+                        top: 20.0,
+                        bottom: 20.0,
+                      ),
+                      child: Column(
+                        children: [
+                          const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Terms and Conditions for the AgriLife App",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 8),
-                        RichText(
-                          text: const TextSpan(
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.black,
+                          const SizedBox(height: 8),
+                          RichText(
+                            text: const TextSpan(
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: "1. Introduction\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "Welcome to the AgriLife App, developed by Group 18 (ICT), an application designed to provide comprehensive information and tools for coffee beans post-harvest handling and storage, specifically tailored for farmers in the Nyendo-Masaka district. By using this application, you agree to comply with and be bound by the following terms and conditions. Please read them carefully before using the app.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "2. Acceptance of Terms\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "By accessing or using the AgriLife App, you agree to be legally bound by these terms and conditions and our Privacy Policy. If you do not agree with any of these terms, you are prohibited from using or accessing this app.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "3. Purpose of the App\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text: "The AgriLife App is intended to:\n"
+                                      "\u2022 Provide farmers with comprehensive\n   information on best practices for coffee\n   beans post-harvest handling and storage.\n\u2022 Enhance farmers' knowledge and skills in\n   reducing post-harvest losses and improving\n   coffee quality and profitability.\n\u2022 Offer tools and resources for data collection,\n   analysis, and reporting on post-harvest\n   handling processes.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "4. User Responsibilities\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "Users of the AgriLife App are responsible for:\n"
+                                      "\u2022 Ensuring that any information provided in the\n   app is accurate and up-to-date.\n\u2022 Using the app in compliance with all\n   applicable laws and regulations.\n\u2022 Keeping their login credentials secure and not\n   sharing them with others.\n\u2022 Not using the app for any unauthorized or\n   illegal purposes.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "5. Data Collection and Privacy\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "\u2022 The AgriLife App collects data on coffee\n   harvesting methods, drying processes,\n   fermentation details, storage conditions, and\n   any observed defects or losses. This data is\n   used to provide analytics, reports, and\n   recommendations for improving post-harvest\n   practices.\n\u2022 By using the app, you consent to the collection\n   and use of your data as described in our\n   Privacy Policy. We are committed to\n   protecting your privacy and will not share your\n   data with third parties without your consent,\n   except as required by law.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "6. Intellectual Property\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "\u2022 All content, features, and functionality of the\n  AgriLife App, including but not limited to text,\n  graphics, logos, and software, are the\n  intellectual property of Group 18 (ICT) and are\n  protected by copyright, trademark, and other\n  applicable laws.\n\u2022 You are granted a limited, non-exclusive, non-\n   transferable, and revocable license to use the\n   AgriLife App for personal, non-commercial\n   purposes. You may not reproduce, distribute,\n   modify, create derivative works of, publicly\n   display, publicly perform, republish, download,\n   store, or transmit any of the material on our\n   app without the prior written consent of Group\n   18 (ICT).\n\n",
+                                ),
+                                TextSpan(
+                                  text: "7. Limitation of Liability\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "\u2022 The AgriLife App is provided on an "
+                                      "as"
+                                      "-is"
+                                      " and\n   "
+                                      "as-available"
+                                      " basis. While we strive to provide\n   accurate and up-to-date information, we make\n   no warranties or representations regarding the\n   accuracy, completeness, or reliability of any\n   content or services provided through the app.\n\u2022 Group 18 (ICT) will not be liable for any direct,\n   indirect, incidental, special, consequential, or\n   punitive damages arising from or related to\n   your use of the app or inability to use the app.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "8. Updates and Modifications\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "We may update or modify these terms and conditions from time to time. We will notify you of any changes by updating the "
+                                      "Last Updated"
+                                      " date at the bottom of these terms. Your continued use of the app after any changes to the terms constitutes your acceptance of the new terms.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "9. Governing Law\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "These terms and conditions are governed by and construed in accordance with the laws of Uganda. Any disputes arising from or related to your use of the AgriLife App shall be subject to the exclusive jurisdiction of the courts of Uganda.\n\n",
+                                ),
+                                TextSpan(
+                                  text: "10. Contact Information\n",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                                TextSpan(
+                                  text:
+                                      "If you have any questions about these Terms, please contact us at:\n    \u2022 Email: kigoyebrian@gmail.com\n    \u2022 Phone: +256 708373048\n\nLast Updated: 6/9/24 \n",
+                                ),
+                              ],
                             ),
-                            children: [
-                              TextSpan(
-                                text: "1. Acceptance of Terms\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "By downloading, installing, or using the Digital Chest X-ray Diagnostic App ("
-                                    "App"
-                                    "), you agree to be bound by these Terms and Conditions ("
-                                    "Terms"
-                                    "). If you do not agree to these Terms, please do not use the App.\n\n",
-                              ),
-                              TextSpan(
-                                text: "2. Use of the App\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Eligibility: You must be at least 18 years old to\n   use the App. By using the App, you represent\n   and warrant that you are at least 18 years old.\n\u2022 License: The App is licensed, not sold, to you.\n  Subject to these Terms, we grant you a non-\n  exclusive, non-transferable, limited license to\n  use the App on your device.\n\u2022 Restrictions:\n   You agree not to:\n    -	 Modify, reverse engineer, or create\n       derivative works based on the App.\n    -	 Use the App for any unlawful purpose or in\n       any way that could harm the App or impair\n       anyone else's use of the App.\n\n",
-                              ),
-                              TextSpan(
-                                text: "3. Privacy and Data\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Data Collection: The App may collect certain\n   information about your usage, including digital\n   chest x-ray images, diagnostic results, and\n   metadata. By using the App, you consent to\n   the collection and use of this data in\n   accordance with our Privacy Policy.\n\u2022 Data Security: We implement reasonable\n   security measures to protect your data.\n   However, we cannot guarantee absolute\n   security, and you acknowledge that you use\n   the App at your own risk.\n\n",
-                              ),
-                              TextSpan(
-                                text: "4. Medical Disclaimer\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Informational Purposes: The App is designed\n   to assist in the diagnostic process but is not a\n   substitute for professional medical advice,\n   diagnosis, or treatment. Always seek the\n   advice of your physician or other qualified\n   health provider with any questions you may\n   have regarding a medical condition.\n\u2022 No Warranties: The diagnostic results provided\n   by the App are based on machine learning\n   algorithms and are intended for informational\n   purposes only. We make no warranties\n   regarding the accuracy, completeness, or\n   usefulness of the App's diagnostic results.\n\n",
-                              ),
-                              TextSpan(
-                                text: "5. Intellectual Property\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Ownership: All intellectual property rights in\n   and to the App, including but not limited to\n   software, text, graphics, logos, and\n   trademarks, are owned by us or our licensors.\n\u2022 Use of Content: You may not use any of our\n   intellectual property without our prior written\n   consent.\n\n",
-                              ),
-                              TextSpan(
-                                text: "6. Updates and Modifications\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Updates: We may provide updates, upgrades,\n   or modifications to the App. These may be\n   automatically installed without providing any\n   additional notice or receiving any additional\n   consent.\n\u2022 Modifications to Terms: We reserve the right to\n   modify these Terms at any time. Your\n   continued use of the App after any such\n   modifications constitutes your acceptance of\n   the new Terms.\n\n",
-                              ),
-                              TextSpan(
-                                text: "7. Termination\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "\u2022 Termination by Us: We may terminate or\n   suspend your access to the App at any time,\n   without notice, for any reason, including if you\n   breach these Terms.\n\u2022 Effect of Termination: Upon termination, you\n   must cease all use of the App and delete all\n   copies from your device.\n\n",
-                              ),
-                              TextSpan(
-                                text: "8. Limitation of Liability\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses, resulting from\n    (i)	your use or inability to use the App;\n    (ii)	any unauthorized access to or use of our\n         servers and/or any personal information\n         stored therein.  \n\n",
-                              ),
-                              TextSpan(
-                                text: "9. Governing Law\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "These Terms are governed by and construed in accordance with the laws of the jurisdiction in which our company is established, without regard to its conflict of law principles.\n\n",
-                              ),
-                                   TextSpan(
-                                text: "10. Contact Information\n",
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              TextSpan(
-                                text:
-                                    "If you have any questions about these Terms, please contact us at:\n    \u2022 Email: kimeramarvin4@gmail.com\n    \u2022 Phone: +256 700970011\nBy using the Digital Chest X-ray Diagnostic App, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.\n\n",
-                              ),
-                            ],
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

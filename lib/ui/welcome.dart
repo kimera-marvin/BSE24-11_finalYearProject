@@ -1,8 +1,28 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:final_app/ui/login.dart';
 import 'package:flutter/material.dart';
+import 'dart:async'; // Import the timer package
 
-class Welcome extends StatelessWidget {
+class Welcome extends StatefulWidget {
   const Welcome({super.key});
+
+  @override
+  _WelcomeState createState() => _WelcomeState();
+}
+
+class _WelcomeState extends State<Welcome> {
+  @override
+  void initState() {
+    super.initState();
+    // Start the timer as soon as the splash screen is loaded
+    Timer(const Duration(seconds: 5), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const Login()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +34,7 @@ class Welcome extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Colors.white,
-              Colors.blue,
+              Colors.brown,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -26,54 +46,36 @@ class Welcome extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                bottom: 300,
+                bottom: 200,
                 left: 0,
                 right: 0,
                 child: Column(
                   children: [
                     Image.asset(
-                      'assets/images/coronavirus-tuberculosis_SH_1064066363.png',
-                      width: 180,
-                      height: 150,
+                      'assets/images/IMG-20240809-WA0009.jpg',
+                      width: 300,
+                      height: 280,
+                    ),
+                    const SizedBox(
+                      height: 20,
                     ),
                     const Text(
-                      'Welcome',
+                      'AgriLife',
                       style: TextStyle(
-                        fontSize: 29,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Text(
+                      'Every Coffee Bean Matters',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontStyle: FontStyle.italic,
                         color: Colors.white,
                       ),
                     )
                   ],
-                ),
-              ),
-              Positioned(
-                bottom: 100,
-                left: 0,
-                right: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(40.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (_) => const Login()));
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(30)),
-                      ),
-                      child: const Center(
-                        child: Text(
-                          'Get started',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
                 ),
               ),
             ],

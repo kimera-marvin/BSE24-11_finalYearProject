@@ -17,6 +17,10 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _passwordTextController = TextEditingController();
   TextEditingController _emailTextController = TextEditingController();
   TextEditingController _userNameTextController = TextEditingController();
+  TextEditingController _phoneNumberTextController = TextEditingController();
+  TextEditingController _regionTextController = TextEditingController();
+  TextEditingController _districtTextController = TextEditingController();
+  TextEditingController _villageTextController = TextEditingController();
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -56,7 +60,7 @@ class _SignUpState extends State<SignUp> {
           gradient: LinearGradient(
             colors: [
               Colors.white,
-              Colors.blue,
+              Colors.brown,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -78,6 +82,11 @@ class _SignUpState extends State<SignUp> {
                 const SizedBox(
                   height: 20,
                 ),
+                reusableTextField("Enter Telephone Number", Icons.phone,
+                    _phoneNumberTextController, TextInputType.phone),
+                const SizedBox(
+                  height: 20,
+                ),
                 reusableTextField("Enter Email Address", Icons.person_outline,
                     _emailTextController, TextInputType.emailAddress),
                 const SizedBox(
@@ -87,6 +96,21 @@ class _SignUpState extends State<SignUp> {
                     text: "Enter Password", //(6/ more characters)
                     icon: Icons.lock_outlined,
                     controller: _passwordTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter Region", Icons.house_outlined,
+                    _regionTextController, TextInputType.text),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter District", Icons.house_outlined,
+                    _districtTextController, TextInputType.text),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter Village", Icons.house_outlined,
+                    _villageTextController, TextInputType.text),
                 const SizedBox(
                   height: 30,
                 ),
@@ -110,8 +134,12 @@ class _SignUpState extends State<SignUp> {
                         .doc(userCredential.user!.uid)
                         .set({
                       'username': _userNameTextController.text,
+                      'phone': _phoneNumberTextController.text,
                       'email': _emailTextController.text,
                       'password': _passwordTextController.text,
+                      'region': _regionTextController.text,
+                      'district': _districtTextController.text,
+                      'village': _villageTextController.text,
                     });
 
                     print("Created New Account");
@@ -120,7 +148,11 @@ class _SignUpState extends State<SignUp> {
                       MaterialPageRoute(
                         builder: (context) => Home(
                           username: _userNameTextController.text,
+                          phone: _phoneNumberTextController.text,
                           email: _emailTextController.text,
+                          region: _regionTextController.text,
+                          district: _districtTextController.text,
+                          village: _villageTextController.text,
                         ),
                       ),
                     );
